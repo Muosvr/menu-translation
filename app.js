@@ -29,5 +29,19 @@ function sendRequest(){
             console.log(response);
             }
     })
+    
 }
 
+
+function drawBox(x1,y1,x3,y3){
+    var width = x3-x1;
+    var height = y3-y1;
+    var top = y1;
+    var left = x1;
+    $(".box").css({
+        "top":top,
+        "left": left,
+        "width": width,
+        "height": height
+    })
+}
