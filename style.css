@@ -12,6 +12,8 @@ button{
 
 .box{
     position:absolute;
-    border:2px solid green;
+    /*border:2px solid green;*/
+    background-color:green;
+    opacity:0.2;
     margin:0;
 }
