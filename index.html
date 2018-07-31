@@ -13,8 +13,22 @@
             <img src="https://storage.googleapis.com/laughabc/menu1.jpg">
             <div class="box"></div>
         </div>
+        <button onclick="sendRequest()">Translate into Chinese</button>
+        <h3>Translation Here</h3>
+        <div>
+            <script>
+              (function() {
+                var cx = '016534509464678393715:5ihrfh22yvg';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+              })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
         
-        <button onclick="sendRequest()">Translate</button>
-        <h3>Test</h3>
     </body>
 </html>

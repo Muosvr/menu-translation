@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>JSON Custom Search API Example</title>
+  </head>
+  <body>
+    <h2>Test</h2>
+    <div id="content"></div>
+    <script>
+      function hndlr(response) {
+      for (var i = 0; i < response.items.length; i++) {
+        var item = response.items[i];
+        // in production code, item.htmlTitle should have the HTML entities escaped.
+        document.getElementById("content").innerHTML += "<br>" + item.htmlTitle;
+      }
+    }
+    </script>
+    <script src="https://www.googleapis.com/customsearch/v1?key=AIzaSyD7ZO5TgmBvGBwjdhDnP2Ms7O5hbiwcEZg&cx=016534509464678393715:5ihrfh22yvg&q=cars&callback=hndlr">
+    </script>
+  </body>
+</html>

@@ -38,13 +38,25 @@ function sendRequest(){
           }
   })
   
+  //click event handler
   $(".container").click(function(e){
     
     var selectedWord = wordArr[e.target.id].description;
     translate(selectedWord);
+    $("input").val(selectedWord);
     
   });
     
+}
+
+function searchImage(keyword){
+  $.ajax({
+    type:"GET",
+    url:"https://www.googleapis.com/customsearch/v1?key=AIzaSyD0ijHhvi6X1ypRLdlkgVTodi-Ff8mIknc&cx=016534509464678393715:5ihrfh22yvg&q="+keyword,
+    success:function(response){
+      console.log(response);
+    }
+  })
 }
 
 function translate(text){
