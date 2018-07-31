@@ -12,10 +12,6 @@ button{
 
 .box{
     position:absolute;
-    top:4px;
-    left:0px;
-    width:28px;
-    height:10px;
     border:2px solid green;
     margin:0;
 }
