@@ -1,34 +1,24 @@
 var obj;
 var wordArr=[];
 var translatedText = "";
+var reader  = new FileReader();
+var data;
+var dataurl;
+var imgResize;
 
 function sendRequest(){
   
   console.log("Request has been sent.");
   $("h3").css({color:"red"});
+  $("input.gsc-input").val("Click a word to search for image");
+  
+  //"gs://laughabc/menu1.jpg"
   
   
-  var data = 
-  {
-    "requests": [
-      {
-        "image": {
-          "source": {
-            "gcsImageUri": "gs://laughabc/menu1.jpg"
-          }
-        },
-        "features": [
-          {
-            "type": "DOCUMENT_TEXT_DETECTION"
-          }
-        ]
-      }
-    ]
-  }
-  
+  //OCR on photo
   $.ajax({
       type: "POST",
-      url: "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyD7ZO5TgmBvGBwjdhDnP2Ms7O5hbiwcEZg",
+      url: "https://vision.googleapis.com/v1/images:annotate?key="+key,
       data: JSON.stringify(data),
       contentType:"application/json",
       success:function(response){
@@ -38,21 +28,65 @@ function sendRequest(){
           }
   })
   
-  //click event handler
+  //word selection click event handler
   $(".container").click(function(e){
-    
     var selectedWord = wordArr[e.target.id].description;
     translate(selectedWord);
-    $("input").val(selectedWord);
+    $("input.gsc-input").val(selectedWord);
+    $("button.gsc-search-button").click();
     
   });
     
 }
 
+function previewFile() {
+  
+  var img = "<img id = 'uploadImg' src='' alt='Image preview...'>";
+  $(".container").empty();
+  $(".container").append(img);
+  
+  var preview = document.querySelector('#uploadImg');
+  var file    = document.querySelector('input[type=file]').files[0];
+
+
+  reader.addEventListener("load", function () {
+    
+    preview.src = reader.result;
+    // var canvas = document.createElement('canvas');
+    // var ctx = canvas.getContext("2d");
+    // canvas.width = 800;
+    // canvas.height = 600;
+    // ctx.drawImage(preview,0,0,800,600);
+    // dataurl = canvas.toDataURL("image/jpeg");
+    // preview.src = dataurl;
+    data = 
+      {
+        "requests": [
+          {
+            "image": {
+              "content": reader.result.slice(23)
+            },
+            "features": [
+              {
+                "type": "DOCUMENT_TEXT_DETECTION"
+              }
+            ]
+          }
+        ]
+      }
+    
+  }, false);
+
+  if (file) {
+    reader.readAsDataURL(file);
+    
+  }
+}
+
 function searchImage(keyword){
   $.ajax({
     type:"GET",
-    url:"https://www.googleapis.com/customsearch/v1?key=AIzaSyD0ijHhvi6X1ypRLdlkgVTodi-Ff8mIknc&cx=016534509464678393715:5ihrfh22yvg&q="+keyword,
+    url:"https://www.googleapis.com/customsearch/v1?key="+key+"&cx=016534509464678393715:5ihrfh22yvg&q="+keyword,
     success:function(response){
       console.log(response);
     }
@@ -69,13 +103,14 @@ function translate(text){
   
     $.ajax({
       type: "POST",
-      url:"https://translation.googleapis.com/language/translate/v2?key=AIzaSyD7ZO5TgmBvGBwjdhDnP2Ms7O5hbiwcEZg",
+      url:"https://translation.googleapis.com/language/translate/v2?key="+key,
       data:JSON.stringify(translate),
       contentType:"application/json",
       success:function(response){
         translatedText = response.data.translations[0].translatedText;
         console.log(translatedText);
         $("h3").text(translatedText);
+        $("button.gsc-search-button").click();
       }
       
     })

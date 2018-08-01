@@ -6,14 +6,13 @@
         </title>
         <link href="style.css" rel="stylesheet" type="text/css">
         <script type="text/javascript" src="jquery-3.3.1.js"></script>
+        <script type="text/javascript" src="restrictedKeys.js"></script>
         <script type="text/javascript" src="app.js"></script>
     </head>
     <body>
-        <div class="container">
-            <img src="https://storage.googleapis.com/laughabc/menu1.jpg">
-            <div class="box"></div>
-        </div>
-        <button onclick="sendRequest()">Translate into Chinese</button>
+        <div class="container"></div>
+        <input type="file" onchange="previewFile()"><br>
+        <button class="translate" onclick="sendRequest()">Translate into Chinese</button>
         <h3>Translation Here</h3>
         <div>
             <script>
@@ -26,6 +25,7 @@
                 var s = document.getElementsByTagName('script')[0];
                 s.parentNode.insertBefore(gcse, s);
               })();
+              
             </script>
             <gcse:search></gcse:search>
         </div>
