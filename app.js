@@ -9,7 +9,6 @@ var imgResize;
 function sendRequest(){
   
   console.log("Request has been sent.");
-  $("h3").css({color:"red"});
   $("input.gsc-input").val("Click a word to search for image");
   
   //"gs://laughabc/menu1.jpg"
@@ -39,6 +38,20 @@ function sendRequest(){
     
 }
 
+function resizeImage(imageId,width){
+    
+    var img = document.querySelector(imageId);
+    var height = img.height*width/img.width;
+    var canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    // imgResize = "<img src="+reader.result+">";
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img,0,0,width,height);
+    dataurl = canvas.toDataURL("image/jpeg");
+    img.src = dataurl;
+}
+
 function previewFile() {
   
   var img = "<img id = 'uploadImg' src='' alt='Image preview...'>";
@@ -50,21 +63,14 @@ function previewFile() {
 
 
   reader.addEventListener("load", function () {
-    
     preview.src = reader.result;
-    // var canvas = document.createElement('canvas');
-    // var ctx = canvas.getContext("2d");
-    // canvas.width = 800;
-    // canvas.height = 600;
-    // ctx.drawImage(preview,0,0,800,600);
-    // dataurl = canvas.toDataURL("image/jpeg");
-    // preview.src = dataurl;
+    resizeImage("#uploadImg",800);
     data = 
       {
         "requests": [
           {
             "image": {
-              "content": reader.result.slice(23)
+              "content": dataurl.slice(23)
             },
             "features": [
               {
@@ -77,9 +83,10 @@ function previewFile() {
     
   }, false);
 
+  
+  
   if (file) {
     reader.readAsDataURL(file);
-    
   }
 }
 
@@ -109,7 +116,7 @@ function translate(text){
       success:function(response){
         translatedText = response.data.translations[0].translatedText;
         console.log(translatedText);
-        $("h3").text(translatedText);
+        $("h3.translation").text(translatedText);
         $("button.gsc-search-button").click();
       }
       

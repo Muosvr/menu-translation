@@ -5,15 +5,25 @@
             Menu translation
         </title>
         <link href="style.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
         <script type="text/javascript" src="jquery-3.3.1.js"></script>
         <script type="text/javascript" src="restrictedKeys.js"></script>
         <script type="text/javascript" src="app.js"></script>
     </head>
     <body>
+        <h1 class="header">Menu Translator</h1>
         <div class="container"></div>
-        <input type="file" onchange="previewFile()"><br>
-        <button class="translate" onclick="sendRequest()">Translate into Chinese</button>
-        <h3>Translation Here</h3>
+        <label class="uploadBtn">
+            <input class = "hidden" type="file" onchange="previewFile()">
+            Upload File
+        </label>
+        
+        <label class="translateBtn">
+            <button class="hidden" onclick="sendRequest()">Translate into Chinese</button>
+            Translate into Chinese
+        </label>
+        
+        <h3 class="translation">translation here</h3>
         <div>
             <script>
               (function() {
