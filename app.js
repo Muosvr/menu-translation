@@ -5,10 +5,11 @@ var reader  = new FileReader();
 var data;
 var dataurl;
 var imgResize;
+var language;
 
 
 function sendRequest(lan){
-  
+  language = lan;
   console.log("Request has been sent.");
   $("input.gsc-input").val("Select a word to search for image");
   
@@ -31,7 +32,7 @@ function sendRequest(lan){
   //word selection click event handler
   $(".container").click(function(e){
     var selectedWord = wordArr[e.target.id].description;
-    translate(selectedWord,lan);
+    translate(selectedWord,language);
     $("input.gsc-input").val(selectedWord);
     $("button.gsc-search-button").click();
   });
@@ -102,10 +103,10 @@ function previewFile() {
 }
 
 //make google translate API calls
-function translate(text,lan){
+function translate(text,language){
     var translate = {
       'q': "",
-      'target': lan
+      'target': language
     } 
     
     translate.q = text;
