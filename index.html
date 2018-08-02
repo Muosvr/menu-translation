@@ -12,18 +12,28 @@
     </head>
     <body>
         <h1 class="header">Menu Translator</h1>
-        <div class="container"></div>
         <label class="uploadBtn">
             <input class = "hidden" type="file" onchange="previewFile()">
             Upload File
         </label>
+        <div class="container"></div>
+        <div class="btnContainer">
+            <label class="translateBtn">
+                <button class="hidden" onclick="sendRequest('zh-CN')"></button>
+                Translate into Chinese
+            </label>
+            <label class="translateBtn">
+                <button class="hidden smallBtn" onclick="sendRequest('en')"></button>
+                English
+            </label>
+            <label class="translateBtn">
+                <button class="hidden smallBtn" onclick="sendRequest('es')"></button>
+                Spanish
+            </label>
+        </div>
+
         
-        <label class="translateBtn">
-            <button class="hidden" onclick="sendRequest()">Translate into Chinese</button>
-            Translate into Chinese
-        </label>
-        
-        <h3 class="translation">translation here</h3>
+        <h3 class="translation">Select a word to see translation here</h3>
         <div>
             <script>
               (function() {

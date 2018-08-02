@@ -6,10 +6,11 @@ var data;
 var dataurl;
 var imgResize;
 
-function sendRequest(){
+
+function sendRequest(lan){
   
   console.log("Request has been sent.");
-  $("input.gsc-input").val("Click a word to search for image");
+  $("input.gsc-input").val("Select a word to search for image");
   
   //"gs://laughabc/menu1.jpg"
   
@@ -30,42 +31,53 @@ function sendRequest(){
   //word selection click event handler
   $(".container").click(function(e){
     var selectedWord = wordArr[e.target.id].description;
-    translate(selectedWord);
+    translate(selectedWord,lan);
     $("input.gsc-input").val(selectedWord);
     $("button.gsc-search-button").click();
-    
   });
     
 }
 
-function resizeImage(imageId,width){
-    
-    var img = document.querySelector(imageId);
-    var height = img.height*width/img.width;
-    var canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
-    // imgResize = "<img src="+reader.result+">";
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(img,0,0,width,height);
-    dataurl = canvas.toDataURL("image/jpeg");
-    img.src = dataurl;
-}
-
+//function to upload image
 function previewFile() {
   
-  var img = "<img id = 'uploadImg' src='' alt='Image preview...'>";
+  //create preview image element
+  var preview = new Image();
+  preview.id = 'uploadImg';
+  preview.alt = 'Sorry please try again...';
   $(".container").empty();
-  $(".container").append(img);
+  $(".container").append(preview);
   
-  var preview = document.querySelector('#uploadImg');
+  // var preview = document.querySelector('#uploadImg');
   var file    = document.querySelector('input[type=file]').files[0];
-
-
+  
+  //create trigger to load image
   reader.addEventListener("load", function () {
-    preview.src = reader.result;
-    resizeImage("#uploadImg",800);
-    data = 
+    
+    //create a temp image element as buffer
+    var img = new Image();
+    img.src = reader.result;
+
+    //resize image after it's fully loaded using canvas
+    img.onload = function(){
+
+      var width = 800;
+      var height = img.height*width/img.width;
+      var canvas = document.createElement('canvas');
+      var ctx = canvas.getContext("2d");
+      
+      canvas.width = width;
+      canvas.height = height;
+      console.log("img has loaded");
+      
+      ctx.drawImage(img,0,0,width,height);
+      dataurl = canvas.toDataURL("image/jpeg");
+      
+      //display image
+      preview.src = dataurl;
+      
+      //load into data for google vision api
+      data = 
       {
         "requests": [
           {
@@ -80,30 +92,20 @@ function previewFile() {
           }
         ]
       }
-    
+    };
   }, false);
 
-  
-  
+  //read file when it's been uploaded
   if (file) {
     reader.readAsDataURL(file);
   }
 }
 
-function searchImage(keyword){
-  $.ajax({
-    type:"GET",
-    url:"https://www.googleapis.com/customsearch/v1?key="+key+"&cx=016534509464678393715:5ihrfh22yvg&q="+keyword,
-    success:function(response){
-      console.log(response);
-    }
-  })
-}
-
-function translate(text){
+//make google translate API calls
+function translate(text,lan){
     var translate = {
       'q': "",
-      'target': 'zh-CN'
+      'target': lan
     } 
     
     translate.q = text;
@@ -155,6 +157,7 @@ function boundTextByBlocks(obj){
 
 
 function drawBox(x1,y1,x3,y3,index){
+  
     //create box element
     var box = "<div class='box' id="+ index +"></div>"
     $(".container").append(box);

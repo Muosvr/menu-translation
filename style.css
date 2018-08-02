@@ -6,20 +6,28 @@ body{
 
 h1{
     text-align: center;
-    padding:20px;
-    /*margin-bottom:10px;*/
+    padding-top:5px;
     display:block;
     margin:auto;
+    margin-bottom:20px;
     font-weight: 100;
+    /*border-bottom:2px dotted lightblue;*/
+    width:40%;
+    min-width: 300px;
 }
 
 
 h3{
     margin:auto;
+    margin-top:10px;
     display:block;
     text-align:center;
-    padding:10px;
+    padding:5px;
     font-weight: 100;
+    border:2px dashed lightblue;
+    width:40%;
+    min-width: 300px;
+    min-height: 60px;
 }
 input[type="file"]{
     display:none;
@@ -30,6 +38,7 @@ input[type="file"]{
 }
 
 .uploadBtn{
+    border-radius:3px;
     border:2px solid lightblue;
     padding:5px;
     text-align:center;
@@ -38,7 +47,7 @@ input[type="file"]{
     margin:auto;
     display:block;
     margin-top:10px;
-    margin-bottom:20px;
+    margin-bottom:10px;
     box-shadow: 2px 2px;
 }
 
@@ -51,21 +60,30 @@ input[type="file"]{
     transform: translate(2px,2px);
 }
 
+.btnContainer{
+    display:block;
+    margin:auto;
+    width:400px;
+    text-align:center;
+    height:50px;
+    margin-top:15px;
+}
+
 .translateBtn{
+    border-radius:3px;
+    display:inline-block;
+    box-shadow: 2px 2px;
+    /*dsdfasdfdfasd*/
     border:2px solid lightblue;
     padding:5px;
     text-align:center;
     color:darkgrey;
-    width:180px;
     margin:auto;
-    display:block;
-    margin-bottom:20px;
-    box-shadow: 2px 2px;
+    margin-left:10px;
 }
 
 .translateBtn:hover{
     cursor:pointer;
-
 }
 .translateBtn:active{
     box-shadow: 0 0;
