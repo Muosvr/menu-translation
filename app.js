@@ -6,6 +6,7 @@ var data;
 var dataurl;
 var imgResize;
 var language;
+var testObj = {};
 
 function sendRequest(lan) {
   language = lan;
@@ -24,59 +25,9 @@ function sendRequest(lan) {
       boundTextByWord(response);
 
       // Test only
-      logText(response);
+      parseAnnotation(response);
     }
   });
-
-  // ============Test only==================
-  function logText(response) {
-    if (response["responses"][0]["fullTextAnnotation"]) {
-      var blocks =
-        response["responses"][0]["fullTextAnnotation"]["pages"][0]["blocks"];
-      var blockCount = blocks.length;
-      var fullText = [];
-      console.log("Number of blocks:", blockCount);
-      for (var i = 0; i < blockCount; i++) {
-        var paragraphs = blocks[i]["paragraphs"];
-        var paragraphCount = paragraphs.length;
-        var block = "";
-        for (var j = 0; j < paragraphCount; j++) {
-          words = paragraphs[j]["words"];
-          wordCount = words.length;
-          for (var k = 0; k < wordCount; k++) {
-            symbols = words[k]["symbols"];
-            symbolCount = symbols.length;
-            var letters = [];
-            var word = "";
-            var lineBreak = undefined;
-            for (var f = 0; f < symbolCount; f++) {
-              if (symbols[f]["property"]) {
-                if (symbols[f]["property"]["detectedBreak"]) {
-                  if (
-                    symbols[f]["property"]["detectedBreak"]["type"] ==
-                      "LINE_BREAK" ||
-                    symbols[f]["property"]["detectedBreak"]["type"] ==
-                      "EOL_SURE_SPACE"
-                  ) {
-                    lineBreak = " ||";
-                  }
-                }
-              }
-              var letter = symbols[f]["text"];
-              letters.push(letter);
-            }
-            word = letters.join("");
-            block = block + word + " ";
-            if (lineBreak) {
-              block += lineBreak;
-            }
-          }
-        }
-        fullText.push(block);
-      }
-      // console.log(fullText);
-    }
-  }
 
   //word selection click event handler
   $(".container").click(function(e) {
@@ -85,6 +36,139 @@ function sendRequest(lan) {
     $("input.gsc-input").val(selectedWord);
     $("button.gsc-search-button").click();
   });
+}
+
+// Parse annotation from Google ORC API response
+function parseAnnotation(response) {
+  var minPhraseChar = 2;
+
+  if (response["responses"][0]["fullTextAnnotation"]) {
+    var blocks =
+      response["responses"][0]["fullTextAnnotation"]["pages"][0]["blocks"];
+    var blockCount = blocks.length;
+    var fullText = [];
+
+    // Concat fullText from blocks
+    for (var i = 0; i < blockCount; i++) {
+      var paragraphs = blocks[i]["paragraphs"];
+      var paragraphCount = paragraphs.length;
+      var block = {};
+      var paragraphIndex = 0;
+
+      // Concat pharagraphs
+      for (var j = 0; j < paragraphCount; j++) {
+        words = paragraphs[j]["words"];
+        wordCount = words.length;
+        var paragraph = "";
+
+        // Concat sentence by words
+        for (var k = 0; k < wordCount; k++) {
+          symbols = words[k]["symbols"];
+          symbolCount = symbols.length;
+          var letters = [];
+          var word = "";
+          var lineBreak = false;
+
+          // Concat word by symbols
+          for (var f = 0; f < symbolCount; f++) {
+            var letter = symbols[f]["text"];
+            letters.push(letter);
+            if (symbols[f]["property"]) {
+              if (symbols[f]["property"]["detectedBreak"]) {
+                if (
+                  symbols[f]["property"]["detectedBreak"]["type"] ==
+                    "LINE_BREAK" ||
+                  symbols[f]["property"]["detectedBreak"]["type"] ==
+                    "EOL_SURE_SPACE"
+                ) {
+                  lineBreak = true;
+                }
+              }
+            }
+          }
+
+          word = letters.join("");
+          paragraph += word + " ";
+          if (lineBreak) {
+            var pureText = removeSpecialChar(paragraph);
+            if (pureText != "" && pureText != undefined) {
+              if (pureText.length >= minPhraseChar) {
+                block[paragraphIndex++] = pureText;
+                paragraph = "";
+              }
+            }
+          }
+        }
+      }
+      if (Object.keys(block).length != 0) {
+        fullText.push(block);
+      }
+    }
+    // console.log(response);
+    testObj = fullText;
+  }
+}
+
+// Create card objects
+async function createCard(collection, byLine, targetLanguage) {
+  const parsedCollection = byLine ? lineByLine(collection) : collection;
+  const newCollection = parsedCollection.map(description => {
+    return {
+      description: description
+    };
+  });
+
+  const promises = newCollection.map(async item => {
+    // console.log("item 0: ", item[0]);
+    var numOfImageToSearch = 3;
+    item["images"] = await searchImage(
+      item["description"][0],
+      numOfImageToSearch
+    );
+    item["imageLabels"] = await getImageLabels(item["images"]);
+    item["isFood"] = hasFoodLabel(item["imageLabels"]);
+    const keys = Object.keys(item["description"]);
+
+    if (!item["isFood"]) {
+      const longDescription = keys
+        .map(key => {
+          return item["description"][key];
+        })
+        .join(" ");
+      console.log("Using longDescription:", longDescription);
+      item["images"] = await searchImage(longDescription, numOfImageToSearch);
+      item["imageLabels"] = await getImageLabels(item["images"]);
+      item["isFood"] = hasFoodLabel(item["imageLabels"]);
+    }
+    if (item["isFood"]) {
+      item["translation"] = {};
+      const translationPromises = keys.map(async key => {
+        item["translation"][key] = await translate(
+          item["description"][key],
+          targetLanguage
+        );
+      });
+      await Promise.all(translationPromises);
+    }
+  });
+
+  await Promise.all(promises);
+
+  return newCollection;
+}
+
+// Break into one object per line
+function lineByLine(fullTextArr) {
+  newFullTextArr = [];
+  for (var i = 0; i < fullTextArr.length; i++) {
+    objKeys = Object.keys(fullTextArr[i]);
+    for (var j = 0; j < objKeys.length; j++) {
+      var newObj = {};
+      newObj[0] = fullTextArr[i][j];
+      newFullTextArr.push(newObj);
+    }
+  }
+  return newFullTextArr;
 }
 
 //function to upload image
@@ -130,19 +214,10 @@ function previewFile() {
             {
               image: {
                 content: dataurl.slice(23)
-
-                // Test only
-                // source: {
-                //   imageUri:
-                //     "https://hips.hearstapps.com/del.h-cdn.co/assets/18/09/1519654520-delish-glazed-carrots-1.jpg"
-                // }
               },
               features: [
                 {
                   type: "DOCUMENT_TEXT_DETECTION"
-                },
-                {
-                  type: "LABEL_DETECTION"
                 }
               ]
             }
@@ -160,26 +235,20 @@ function previewFile() {
 }
 
 //make google translate API calls
-function translate(text, language) {
+async function translate(text, language) {
   var translate = {
-    q: "",
+    q: text,
     target: language
   };
 
-  translate.q = text;
-
-  $.ajax({
+  const response = await $.ajax({
     type: "POST",
     url: "https://translation.googleapis.com/language/translate/v2?key=" + key,
     data: JSON.stringify(translate),
-    contentType: "application/json",
-    success: function(response) {
-      translatedText = response.data.translations[0].translatedText;
-      console.log(translatedText);
-      $("h3.translation").text(translatedText);
-      $("button.gsc-search-button").click();
-    }
+    contentType: "application/json"
   });
+
+  return response.data.translations[0].translatedText;
 }
 
 // Google Image Search from API
@@ -202,8 +271,6 @@ async function searchImage(keyphrase, numOfResults) {
     for (i = 0; i < response.items.length; i++) {
       imageURLs.push(response.items[i].link);
     }
-  } else {
-    imageURLs.push(undefined);
   }
   return imageURLs;
 }
@@ -236,24 +303,27 @@ async function getImageLabels(urls) {
   });
 
   var collection = [];
-  for (var i = 0; i < response.responses.length; i++) {
-    annotations = response.responses[i].labelAnnotations;
-    // console.log("annotations:", annotations);
-    labels = [];
-    if (annotations) {
-      for (j = 0; j < annotations.length; j++) {
-        // console.log(annotations[j].description);
-        labels.push(annotations[j].description);
+  if (response.responses) {
+    for (var i = 0; i < response.responses.length; i++) {
+      annotations = response.responses[i].labelAnnotations;
+      // console.log("annotations:", annotations);
+      labels = [];
+      if (annotations) {
+        for (j = 0; j < annotations.length; j++) {
+          // console.log(annotations[j].description);
+          labels.push(annotations[j].description);
+        }
       }
+      collection.push(labels);
     }
-    collection.push(labels);
   }
+
   // console.log(collection);
   return collection;
 }
 
 // check if it is food
-function isFood(collection) {
+function hasFoodLabel(collection) {
   tolerance = 0.6;
   var foodVote = 0;
   for (var i = 0; i < collection.length; i++) {
@@ -273,7 +343,7 @@ function isFood(collection) {
     }
   }
   // console.log("foodVote:", foodVote, "collection total:", collection.length);
-  if (foodVote / collection.length > tolerance) {
+  if (foodVote / collection.length >= tolerance) {
     // console.log("Food");
     return true;
   } else {
@@ -285,40 +355,31 @@ function isFood(collection) {
 // Handle multiple food checking
 function checkMultiple(arr) {
   for (var i = 0; i < arr.length; i++) {
-    checkTerms(removeSpecialChar(arr[i]), i);
+    isFood(removeSpecialChar(arr[i]), i);
   }
 }
 
-function removeSpecialChar(str) {
-  var re = /[^A-Za-z' \-\&]/g;
-  return str.replace(re, "").trim();
-}
-
 // Handle check food
-async function checkTerms(keyphrase, index) {
-  numOfImages = 5;
-  searchImage(keyphrase, numOfImages)
-    .then(urls => {
-      // console.log("urls:", urls);
-      if (urls[0]) {
-        return getImageLabels(urls);
-      } else {
-        return false;
-      }
-    })
-    .then(collection => {
-      if (collection) {
-        // console.log("collection:", collection);
-        return isFood(collection);
-      } else {
-        return false;
-      }
-    })
-    .then(result => {
-      console.log("index:", index, "result:", result);
-    });
+async function isFood(imageURLs, index) {
+  const result = await getImageLabels(imageURLs).then(collection => {
+    if (collection) {
+      console.log(
+        "imageURLs",
+        imageURLs,
+        hasFoodLabel(collection),
+        "collection:",
+        collection
+      );
+      return hasFoodLabel(collection);
+    } else {
+      return false;
+    }
+  });
+
+  return result;
 }
 
+// bound text by word
 function boundTextByWord(obj) {
   wordArr = obj.responses[0].textAnnotations;
   if (wordArr) {

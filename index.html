@@ -1,43 +1,46 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>
-            Menu translator
-        </title>
-        <link href="style.css" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-        <script type="text/javascript" src="jquery-3.3.1.js"></script>
-        <script type="text/javascript" src="restrictedKeys.js"></script>
-        <script type="text/javascript" src="app.js"></script>
-    </head>
-    <body>
-        <h1 class="header">Menu Translator</h1>
-        <label class="uploadBtn">
-            <input class = "hidden" type="file" onchange="previewFile()">
-            Take/upload menu photo
-        </label>
-        <p class="notes">*upload picture in landscape mode*</p>
-        <div class="container"></div>
-        <div class="btnContainer">
-            <label class="translateBtn">
-                <button class="hidden" onclick="sendRequest('zh-CN')"></button>
-                Translate into Chinese
-            </label>
-            <label class="translateBtn">
-                <button class="hidden smallBtn" onclick="sendRequest('en')"></button>
-                English
-            </label>
-            <label class="translateBtn">
-                <button class="hidden smallBtn" onclick="sendRequest('es')"></button>
-                Spanish
-            </label>
-        </div>
 
-        
-        <h3 class="translation">Select a highlighted word to see translation here</h3>
-        <div>
-            <script>
-              (function() {
+<head>
+    <title>
+        Menu translator
+    </title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <script type="text/javascript" src="jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="restrictedKeys.js"></script>
+    <script type="text/javascript" src="removeSpecialChar.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+</head>
+
+<body>
+    <h1 class="header">Menu Translator</h1>
+    <label class="uploadBtn">
+        <input class="hidden" type="file" onchange="previewFile()">
+        Take/upload menu photo
+    </label>
+    <p class="notes">*upload picture in landscape mode*</p>
+    <div class="container"></div>
+    <div class="btnContainer">
+        <label class="translateBtn">
+            <button class="hidden" onclick="sendRequest('zh-CN')"></button>
+            Translate into Chinese
+        </label>
+        <label class="translateBtn">
+            <button class="hidden smallBtn" onclick="sendRequest('en')"></button>
+            English
+        </label>
+        <label class="translateBtn">
+            <button class="hidden smallBtn" onclick="sendRequest('es')"></button>
+            Spanish
+        </label>
+    </div>
+
+
+    <h3 class="translation">Select a highlighted word to see translation here</h3>
+    <div>
+        <script>
+            (function () {
                 var cx = '016534509464678393715:5ihrfh22yvg';
                 var gcse = document.createElement('script');
                 gcse.type = 'text/javascript';
@@ -45,11 +48,11 @@
                 gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
                 var s = document.getElementsByTagName('script')[0];
                 s.parentNode.insertBefore(gcse, s);
-              })();
-              
-            </script>
-            <gcse:search></gcse:search>
-        </div>
-        
-    </body>
+            })();
+        </script>
+        <gcse:search></gcse:search>
+    </div>
+
+</body>
+
 </html>
