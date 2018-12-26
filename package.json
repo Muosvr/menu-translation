@@ -1,0 +1,19 @@
+{
+  "name": "menu-translation",
+  "version": "1.0.0",
+  "description": "an app that translates menus",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Muosvr/menu-translation.git"
+  },
+  "author": "Jason Wu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Muosvr/menu-translation/issues"
+  },
+  "homepage": "https://github.com/Muosvr/menu-translation#readme"
+}
