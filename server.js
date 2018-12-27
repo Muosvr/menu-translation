@@ -1,7 +1,11 @@
 const express = require("express");
 const app = express();
+const fileUpload = require("express-fileupload");
 
 const cards = require("./routes/api/cards");
+
+// initiate fileUpload middleware
+app.use(fileUpload());
 
 // initiate test routes
 const annotation_test = require("./routes/api/annotation_test");

@@ -1,7 +1,8 @@
 const lineByLine = require("../utils/lineByLine");
 const searchImage = require("../googleAPI/searchImage");
 const translate = require("../googleAPI/translate");
-const annotateImage = require("../googleAPI/annotateImage");
+const getImageLabels = require("./getImageLabels");
+const hasFoodLabels = require("./hasFoodLabels");
 
 // Create card objects
 // @param collection {object[]} - array of parsed text objects in the format of [{0: text, 1: text, ...}, ...]
@@ -9,7 +10,7 @@ const annotateImage = require("../googleAPI/annotateImage");
 // @param targetLanguage {string} - e.g. "en", "zh-CN", "es" for English, Simplified Chinese, Spanish
 const createCards = async (collection, byLine, targetLanguage) => {
   // For testing only
-  const maxImageSearchQueries = 5;
+  const maxImageSearchQueries = 10;
   var imageSeachQueryCount = 0;
 
   const parsedCollection = byLine ? lineByLine(collection) : collection;
@@ -20,14 +21,13 @@ const createCards = async (collection, byLine, targetLanguage) => {
   });
 
   const promises = newCollection.map(async card => {
-    // console.log("item 0: ", item[0]);
-    populateCard(card, card["description"][0]);
+    await populateCard(card, card["description"][0]);
     const keys = Object.keys(card["description"]);
 
     if (!card["isFood"]) {
       const longDescription = keys
         .map(key => {
-          return item["description"][key];
+          return card["description"][key];
         })
         .join(" ");
       populateCard(card, longDescription);
@@ -51,7 +51,7 @@ const createCards = async (collection, byLine, targetLanguage) => {
     if (imageSeachQueryCount <= maxImageSearchQueries) {
       item["images"] = await searchImage(description, numOfImageToSearch);
       item["imageLabels"] = await getImageLabels(item["images"]);
-      item["isFood"] = hasFoodLabel(item["imageLabels"]);
+      item["isFood"] = hasFoodLabels(item["imageLabels"]);
     } else {
       item["images"] = "Max image query limit reached";
       item["imageLabels"] = "Max image query limite reached";

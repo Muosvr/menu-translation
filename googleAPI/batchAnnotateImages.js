@@ -24,7 +24,6 @@ const batchAnnotateImages = async (urls, type) => {
 
   // Annotate image
   const result = await client.batchAnnotateImages({ requests: requests });
-  console.log(result);
   return result;
 };
 
