@@ -12,4 +12,4 @@ Woudln't it be nice if I can just take a picture and get the full translation of
 Click the upload button to upload image of a menu. This app automatically recognizes words and languages from the uploaded image and returns the translated text. Once you select the languages you want translate to, it will highlight all words on the image with translations available. Select a highligted word and you will see the translation below as well as images asociated with the selected text.
 
 ### Tech Stack
-JavaScript, CSS, jQuery, Google Vision OCR, Google Translate, Google Image Search, Heroku
+Node.js, Express.js, CSS, jQuery, Google Vision, Google Translate, Google Image Search, Heroku
