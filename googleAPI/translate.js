@@ -13,7 +13,7 @@ const translate = async (text, language) => {
     console.log(err);
   });
 
-  return response;
+  return response[0];
 };
 
 module.exports = translate;

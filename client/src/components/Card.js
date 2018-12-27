@@ -1,25 +1,28 @@
 import React from "react";
-import { Card, Icon, Image } from "semantic-ui-react";
+import { Card, Image } from "semantic-ui-react";
 
-const CardExampleCard = () => (
-  <Card fluid>
-    <Image src={require("../client_test_images/sides.jpg")} />
-    <Card.Content>
-      <Card.Header>Matthew</Card.Header>
-      <Card.Meta>
-        <span className="date">Joined in 2015</span>
-      </Card.Meta>
-      <Card.Description>
-        Matthew is a musician living in Nashville.
-      </Card.Description>
-    </Card.Content>
-    <Card.Content extra>
-      <a>
-        <Icon name="user" />
-        22 Friends
-      </a>
-    </Card.Content>
-  </Card>
-);
+const CardExampleCard = props => {
+  const details = Object.keys(props.card.description)
+    .filter(key => key !== "0")
+    .map(key => {
+      return (
+        <div>
+          <Card.Description>{props.card.description[key]}</Card.Description>
+          <Card.Meta>({props.card.translation[key]})</Card.Meta>
+        </div>
+      );
+    });
+
+  return (
+    <Card fluid>
+      <Image src={props.card.images[1]} fluid />
+      <Card.Content>
+        <Card.Header>{props.card.description[0]}</Card.Header>
+        <Card.Meta>({props.card.translation[0]})</Card.Meta>
+        {details}
+      </Card.Content>
+    </Card>
+  );
+};
 
 export default CardExampleCard;
