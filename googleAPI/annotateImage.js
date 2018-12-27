@@ -4,13 +4,11 @@ const vision = require("@google-cloud/vision");
 // @param url {string} - image url
 // @param type {string} - Features to use. e.g. "DOCUMENT_TEXT_DETECTION", "LABEL_DETECTION"
 // @returns {object} - json response object
-const annotateImage = async (url, type) => {
+const annotateImage = async (image, type) => {
   // Set request options
   const request = {
     image: {
-      source: {
-        imageUri: url
-      }
+      content: image
     },
     features: [{ type: type }]
   };
