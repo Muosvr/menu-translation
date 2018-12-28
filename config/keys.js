@@ -1,5 +1,5 @@
 try {
-  if (proccess.env.NODE_ENV === "production") {
+  if (proccess.env.GOOGLEAPIKEY) {
     // Set static folder
     module.exports = require("./keys_prod");
     console.log("production environment detected");
