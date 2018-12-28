@@ -1,6 +1,6 @@
 const express = require("express");
 const getImageLabels = require("../../component_logic/getImageLabels");
-const hasFoodLabels = require("../../component_logic/hasFoodLabels");
+const batchAnnotateImages = require("../../googleAPI/batchAnnotateImages");
 
 const router = express.Router();
 
@@ -11,8 +11,17 @@ urls = [
 ];
 
 router.get("/", (req, res) => {
-  getImageLabels(urls).then(response => {
-    res.json(response);
-  });
+  // batchAnnotateImages(urls, "LABEL_DETECTION", req.get("host")).then(
+  //   response => {
+  //     res.json(response);
+  //   }
+  // );
+  getImageLabels(urls, req.get("host"))
+    .then(response => {
+      res.json(response);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 module.exports = router;

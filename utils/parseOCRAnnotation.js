@@ -5,8 +5,9 @@ const parseOCRAnnotations = response => {
   var minPhraseChar = 2;
   var fullText = [];
 
-  if (response[0]["fullTextAnnotation"]) {
-    var blocks = response[0]["fullTextAnnotation"]["pages"][0]["blocks"];
+  if (response["responses"][0]["fullTextAnnotation"]) {
+    var blocks =
+      response["responses"][0]["fullTextAnnotation"]["pages"][0]["blocks"];
     var blockCount = blocks.length;
 
     // Concat fullText from blocks

@@ -8,7 +8,7 @@ const hasFoodLabels = require("./hasFoodLabels");
 // @param collection {object[]} - array of parsed text objects in the format of [{0: text, 1: text, ...}, ...]
 // @param byLine {bool} - whether to process text objects to one line per object
 // @param targetLanguage {string} - e.g. "en", "zh-CN", "es" for English, Simplified Chinese, Spanish
-const createCards = async (collection, byLine, targetLanguage) => {
+const createCards = async (collection, byLine, targetLanguage, referer) => {
   // For testing only
   const maxImageSearchQueries = 50;
   var imageSeachQueryCount = 0;
@@ -38,7 +38,8 @@ const createCards = async (collection, byLine, targetLanguage) => {
       const translationPromises = keys.map(async key => {
         card["translation"][key] = await translate(
           card["description"][key],
-          targetLanguage
+          targetLanguage,
+          referer
         );
       });
 
@@ -51,8 +52,12 @@ const createCards = async (collection, byLine, targetLanguage) => {
     imageSeachQueryCount++;
 
     if (imageSeachQueryCount <= maxImageSearchQueries) {
-      item["images"] = await searchImage(description, numOfImageToSearch);
-      item["imageLabels"] = await getImageLabels(item["images"]);
+      item["images"] = await searchImage(
+        description,
+        numOfImageToSearch,
+        referer
+      );
+      item["imageLabels"] = await getImageLabels(item["images"], referer);
       item["isFood"] = hasFoodLabels(item["imageLabels"]);
     } else {
       item["images"] = "Max image query limit reached";

@@ -1,5 +1,5 @@
 const express = require("express");
-const annotateImage = require("../../googleAPI/annotateImage");
+const imageOCR = require("../../googleAPI/imageOCR");
 const parseOCRAnnotation = require("../../utils/parseOCRAnnotation");
 const createCards = require("../../component_logic/createCards");
 const fs = require("fs");
@@ -22,12 +22,12 @@ router.post("/image", (req, res) => {
   // Conver to base64 encoding
   const base64Image = Buffer.from(file).toString("base64");
 
-  annotateImage(base64Image, "DOCUMENT_TEXT_DETECTION")
+  imageOCR(base64Image, "DOCUMENT_TEXT_DETECTION", req.get("host"))
     .then(annotation => {
       return parseOCRAnnotation(annotation);
     })
     .then(parsed => {
-      createCards(parsed, byLine, "zh-CN").then(cards => {
+      createCards(parsed, byLine, "zh-CN", req.get("host")).then(cards => {
         res.json({ cards: cards });
       });
     })
@@ -52,12 +52,12 @@ router.post("/imageByLine", (req, res) => {
   // Conver to base64 encoding
   const base64Image = Buffer.from(file).toString("base64");
 
-  annotateImage(base64Image, "DOCUMENT_TEXT_DETECTION")
+  imageOCR(base64Image, "DOCUMENT_TEXT_DETECTION", req.get("host"))
     .then(annotation => {
       return parseOCRAnnotation(annotation);
     })
     .then(parsed => {
-      createCards(parsed, byLine, "zh-CN").then(cards => {
+      createCards(parsed, byLine, "zh-CN", req.get("host")).then(cards => {
         res.json({ cards: cards });
       });
     })

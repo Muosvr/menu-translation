@@ -21,7 +21,7 @@ class App extends Component {
     });
   };
 
-  upload = () => {
+  upload = byLine => {
     // var img = new Image();
     // img.src = e.target.files[0];
     this.setState({
@@ -29,8 +29,9 @@ class App extends Component {
     });
     const data = new FormData();
     data.append("image", this.state.file);
+    const path = byLine ? "/cards/imageByLine" : "/cards/image";
     axios
-      .post("/cards/image", data)
+      .post(path, data)
       .then(res => {
         console.log(res["data"]);
         this.setState({
@@ -51,10 +52,17 @@ class App extends Component {
             type="file"
             onChange={e => this.selectFile(e)}
           />
-          <Button style={{ marginTop: "20px" }} primary onClick={this.upload}>
+          <Button
+            style={{ marginTop: "20px" }}
+            primary
+            onClick={() => this.upload(false)}
+          >
             Generate Menu By Block
           </Button>
-          <Button style={{ marginTop: "20px" }} onclick={this.upload_byLine}>
+          <Button
+            style={{ marginTop: "20px" }}
+            onClick={() => this.upload(true)}
+          >
             Generate Menu By Line
           </Button>
           <Dimmer active={this.state.loading}>

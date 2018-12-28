@@ -1,23 +1,20 @@
-const request = require("request-promise");
+// const vision = require("@google-cloud/vision");
 const { googleAPIKey } = require("../config/keys");
+const request = require("request-promise");
 
-// Google vision images batch annotator API call
-// @param url {string[]} - image url
+// Google vision image annotator API call
+// @param url {string} - image url
 // @param type {string} - Features to use. e.g. "DOCUMENT_TEXT_DETECTION", "LABEL_DETECTION"
-// @param referer {string} - url where the request originate from e.g. from req.get("host")
+// @param referer {string} - url where the request originates from e.g. from req.get('host')
 // @returns {object} - json response object
-const batchAnnotateImages = async (urls, type, referer) => {
+const imageOCR = async (image, type, referer) => {
   // Set request options
-  const data = urls.map(url => {
-    return {
-      image: {
-        source: {
-          imageUri: url
-        }
-      },
-      features: [{ type: type }]
-    };
-  });
+  const data = {
+    image: {
+      content: image
+    },
+    features: [{ type: type }]
+  };
 
   const options = {
     method: "POST",
@@ -33,4 +30,4 @@ const batchAnnotateImages = async (urls, type, referer) => {
   return response;
 };
 
-module.exports = batchAnnotateImages;
+module.exports = imageOCR;
