@@ -45,8 +45,18 @@ class App extends Component {
     return (
       <div className="App">
         <Layout>
-          <input id="upload" type="file" onChange={e => this.selectFile(e)} />
-          <Button onClick={this.upload}>Upload</Button>
+          <input
+            style={{ marginTop: "20px" }}
+            id="upload"
+            type="file"
+            onChange={e => this.selectFile(e)}
+          />
+          <Button style={{ marginTop: "20px" }} primary onClick={this.upload}>
+            Generate Menu By Block
+          </Button>
+          <Button style={{ marginTop: "20px" }} onclick={this.upload_byLine}>
+            Generate Menu By Line
+          </Button>
           <Dimmer active={this.state.loading}>
             <Loader />
           </Dimmer>
