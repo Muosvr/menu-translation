@@ -10,7 +10,7 @@ const hasFoodLabels = require("./hasFoodLabels");
 // @param targetLanguage {string} - e.g. "en", "zh-CN", "es" for English, Simplified Chinese, Spanish
 const createCards = async (collection, byLine, targetLanguage) => {
   // For testing only
-  const maxImageSearchQueries = 10;
+  const maxImageSearchQueries = 50;
   var imageSeachQueryCount = 0;
 
   const parsedCollection = byLine ? lineByLine(collection) : collection;
@@ -30,8 +30,9 @@ const createCards = async (collection, byLine, targetLanguage) => {
           return card["description"][key];
         })
         .join(" ");
-      populateCard(card, longDescription);
+      await populateCard(card, longDescription);
     }
+
     if (card["isFood"]) {
       card["translation"] = {};
       const translationPromises = keys.map(async key => {
@@ -40,6 +41,7 @@ const createCards = async (collection, byLine, targetLanguage) => {
           targetLanguage
         );
       });
+
       await Promise.all(translationPromises);
     }
   });

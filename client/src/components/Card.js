@@ -4,21 +4,33 @@ import { Card, Image } from "semantic-ui-react";
 const CardExampleCard = props => {
   const details = Object.keys(props.card.description)
     .filter(key => key !== "0")
-    .map(key => {
+    .map((key, index) => {
       return (
-        <div>
+        <div key={index}>
           <Card.Description>{props.card.description[key]}</Card.Description>
-          <Card.Meta>({props.card.translation[key]})</Card.Meta>
+          <Card.Meta>
+            (
+            {props.card.translation
+              ? props.card.translation[key]
+              : "No translation found"}
+            )
+          </Card.Meta>
         </div>
       );
     });
 
   return (
-    <Card fluid>
+    <Card fluid key={props.keyProp}>
       <Image src={props.card.images[1]} fluid />
       <Card.Content>
         <Card.Header>{props.card.description[0]}</Card.Header>
-        <Card.Meta>({props.card.translation[0]})</Card.Meta>
+        <Card.Meta>
+          (
+          {props.card.translation
+            ? props.card.translation[0]
+            : "No translation found"}
+          )
+        </Card.Meta>
         {details}
       </Card.Content>
     </Card>
