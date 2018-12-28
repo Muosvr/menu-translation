@@ -16,7 +16,7 @@ const labeling_test = require("./routes/api/labeing_test");
 
 // Server static assets if in production
 try {
-  if (proccess.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV === "production") {
     // Set static folder
     app.use(express.static("client/build"));
 
