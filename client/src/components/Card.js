@@ -21,9 +21,9 @@ const CardExampleCard = props => {
 
   return (
     <Card fluid key={props.keyProp} style={{ overflow: "hidden" }}>
-      <Container style={{ maxHeight: "300px", overflow: "hidden" }}>
+      <div style={{ maxHeight: "300px", overflow: "hidden" }}>
         <Image src={props.card.images[1]} fluid />
-      </Container>
+      </div>
 
       <Card.Content>
         <Card.Header>{props.card.description[0]}</Card.Header>
