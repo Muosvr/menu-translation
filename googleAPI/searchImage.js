@@ -27,10 +27,12 @@ const searchImage = async (keyphrase, numOfResults, referer) => {
   const response = await request(options).catch(err => console.log(err));
   var imageURLs = [];
 
-  if (response.items) {
+  try {
     response.items.forEach(item => {
       imageURLs.push(item.link);
     });
+  } catch (err) {
+    console.log("no image found for this item");
   }
   // console.log(response);
   return imageURLs;
