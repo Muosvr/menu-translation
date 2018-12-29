@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Image } from "semantic-ui-react";
+import { Card, Image, Container } from "semantic-ui-react";
 
 const CardExampleCard = props => {
   const details = Object.keys(props.card.description)
@@ -20,8 +20,11 @@ const CardExampleCard = props => {
     });
 
   return (
-    <Card fluid key={props.keyProp}>
-      <Image src={props.card.images[1]} fluid />
+    <Card fluid key={props.keyProp} style={{ overflow: "hidden" }}>
+      <Container style={{ maxHeight: "300px", overflow: "hidden" }}>
+        <Image src={props.card.images[1]} fluid />
+      </Container>
+
       <Card.Content>
         <Card.Header>{props.card.description[0]}</Card.Header>
         <Card.Meta>
