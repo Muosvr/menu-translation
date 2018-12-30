@@ -1,7 +1,7 @@
 # Menu Translator
 
-### [Translator 1.0](https://floating-stream-26119.herokuapp.com/)
-### [Translator 2.0](https://menu-translator.herokuapp.com/)
+### [Translator 0.1](https://floating-stream-26119.herokuapp.com/)
+### [Translator 0.2](https://menu-translator.herokuapp.com/)
 
 ### Problem
 I often have trouble ordering food from menus with food I'm less familiar with, and this problem becomes even more severe when I'm traveling. When encountered with an unfamiliar menu, the choice is to either stick with what I know and miss out on the potential good food, or risk having a bad meal that I'm too embarrassed to leave unfinished, which happens quite often to me, unfortunately… So I found myself looking up every other word on the menu on google translate, and sometimes even the translation doesn't make sense, in which case I then search for an image to try to understand what's in the food. Because of that, I would end up going back and forth between Google Image and Google Translate for each word on the menu.
