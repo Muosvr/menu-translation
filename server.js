@@ -13,8 +13,10 @@ const ocr_test = require("./routes/api/ocr_test");
 const imageSearch_test = require("./routes/api/imageSearch_test");
 const translate_test = require("./routes/api/translate_test");
 const labeling_test = require("./routes/api/labeing_test");
+const getSupportedLanguages = require("./routes/api/supportedLanguages");
 
 // Server static assets if in production
+// ToDo: refactoring
 try {
   if (process.env.NODE_ENV === "production") {
     // Set static folder
@@ -34,6 +36,7 @@ app.use("/search", imageSearch_test);
 app.use("/ocr", ocr_test);
 app.use("/translate", translate_test);
 app.use("/label", labeling_test);
+app.use("/supportedLanguages", getSupportedLanguages);
 
 // Get cards
 app.use("/cards", cards);

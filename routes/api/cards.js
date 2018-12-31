@@ -9,7 +9,7 @@ const router = express.Router();
 // @route POST /cards/image
 // @desc Create cards from blocks of text as recognized by Google annotator
 // @access Public
-router.post("/image", (req, res) => {
+router.post("/image/:language", (req, res) => {
   // byLine is false, process image by blocks
   const byLine = false;
 
@@ -27,9 +27,11 @@ router.post("/image", (req, res) => {
       return parseOCRAnnotation(annotation);
     })
     .then(parsed => {
-      createCards(parsed, byLine, "zh-CN", req.get("host")).then(cards => {
-        res.json({ cards: cards });
-      });
+      createCards(parsed, byLine, req.params.language, req.get("host")).then(
+        cards => {
+          res.json({ cards: cards });
+        }
+      );
     })
     .catch(err => {
       res.json("error:", err);
@@ -39,7 +41,7 @@ router.post("/image", (req, res) => {
 // @route POST /cards/imageByLine
 // @desc Create card for each new line
 // @access Public
-router.post("/imageByLine", (req, res) => {
+router.post("/imageByLine/:language", (req, res) => {
   // Setting byLine parameter to true, process image line by line
   const byLine = true;
 
@@ -57,9 +59,11 @@ router.post("/imageByLine", (req, res) => {
       return parseOCRAnnotation(annotation);
     })
     .then(parsed => {
-      createCards(parsed, byLine, "zh-CN", req.get("host")).then(cards => {
-        res.json({ cards: cards });
-      });
+      createCards(parsed, byLine, req.params.language, req.get("host")).then(
+        cards => {
+          res.json({ cards: cards });
+        }
+      );
     })
     .catch(err => {
       res.json("error:", err);

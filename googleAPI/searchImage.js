@@ -15,7 +15,7 @@ const searchImage = async (keyphrase, numOfResults, referer) => {
       "https://www.googleapis.com/customsearch/v1?key=" +
       googleAPIKey +
       "&cx=016534509464678393715:5ihrfh22yvg&q=" +
-      keyphrase +
+      encodeURIComponent(keyphrase) +
       "&searchType=image&num=" +
       numOfResults,
     headers: {

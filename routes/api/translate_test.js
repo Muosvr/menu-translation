@@ -4,11 +4,11 @@ const translate = require("../../googleAPI/translate");
 const router = express.Router();
 
 // Testing word
-const text = "The Graduate";
-const language = "zh-CH";
+const text = "牛肉面";
+const language = "en";
 
-router.get("/", (req, res) => {
-  translate(text, language, req.get("host"))
+router.get("/:language", (req, res) => {
+  translate(text, req.params.language, req.get("host"))
     .then(response => {
       res.json({ ["The translation of " + "'" + text + "'" + "is"]: response });
     })

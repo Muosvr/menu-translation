@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Image, Container } from "semantic-ui-react";
+import { Card, Image } from "semantic-ui-react";
 
 const CardExampleCard = props => {
   const details = Object.keys(props.card.description)

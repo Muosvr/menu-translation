@@ -4,6 +4,12 @@ import CardContainer from "./components/CardContainer";
 import { testCards } from "./components/test_objs";
 import axios from "axios";
 import { Dimmer, Loader, Button } from "semantic-ui-react";
+import LanguagePicker from "./components/LanguagePicker";
+
+// test only
+// const countryOptions = [
+//   { key: "af", value: "af", flag: "af", text: "Afghanistan" }
+// ];
 
 class App extends Component {
   constructor() {
@@ -11,7 +17,8 @@ class App extends Component {
     this.state = {
       file: null,
       loading: false,
-      response: JSON.parse(testCards)
+      response: JSON.parse(testCards),
+      desiredLanguage: "en"
     };
   }
 
@@ -19,6 +26,19 @@ class App extends Component {
     this.setState({
       file: e.target.files[0]
     });
+  };
+
+  selectLanguage = e => {
+    const languageCode = e.target.value;
+    console.log("language picked");
+    console.log("Selected:", languageCode);
+    this.setState({
+      desiredLanguage: languageCode
+    });
+  };
+
+  onTest = () => {
+    console.log("Test button clicked");
   };
 
   upload = byLine => {
@@ -31,7 +51,7 @@ class App extends Component {
     data.append("image", this.state.file);
     const path = byLine ? "/cards/imageByLine" : "/cards/image";
     axios
-      .post(path, data)
+      .post(path + "/" + this.state.desiredLanguage, data)
       .then(res => {
         console.log(res["data"]);
         this.setState({
@@ -52,6 +72,18 @@ class App extends Component {
             type="file"
             onChange={e => this.selectFile(e)}
           />
+
+          {/* Testing Only */}
+          <LanguagePicker onChange={e => this.selectLanguage(e)} />
+
+          {/* Testing Only */}
+          <select onChange={e => this.selectLanguage(e)}>
+            <option value="zh">Chinese</option>
+            <option value="en">English</option>
+            <option value="fr">French</option>
+            <option value="es">Spanish</option>
+          </select>
+
           <Button
             style={{ marginTop: "20px" }}
             primary

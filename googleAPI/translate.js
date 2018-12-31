@@ -1,11 +1,5 @@
-// const { Translate } = require("@google-cloud/translate");
 const { googleAPIKey } = require("../config/keys");
 const request = require("request-promise");
-
-// Create autherized client
-// const client = new Translate({
-//   keyFilename: "../MenuTranslation-ed6bba598a92.json"
-// });
 
 // translate text into target language
 // @param text {string}
