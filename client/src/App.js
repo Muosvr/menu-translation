@@ -66,14 +66,16 @@ class App extends Component {
           <div
             style={{ display: "block", textAlign: "center", marginTop: "20px" }}
           >
-            <h3>Upload a photo</h3>
+            <h3>1. Upload a photo</h3>
             <input id="upload" type="file" onChange={e => this.selectFile(e)} />
           </div>
+          <div style={{ display: "block", textAlign: "center" }}>
+            <LanguagePicker
+              handleOnChange={this.selectLanguage}
+              style={{ width: "300px" }}
+            />
+          </div>
 
-          <LanguagePicker
-            handleOnChange={this.selectLanguage}
-            style={{ width: "300px" }}
-          />
           <div
             style={{
               display: "block",
@@ -83,7 +85,7 @@ class App extends Component {
           >
             <h3 tyle={{ marginBottom: "0px", textAlign: "center" }}>
               {" "}
-              What type of menu is it?
+              2. What type of menu is it?
             </h3>
           </div>
 

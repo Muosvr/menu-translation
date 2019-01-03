@@ -42,7 +42,6 @@ const LanguagePicker = props => (
   <Dropdown
     style={{ marginTop: "20px", marginBottom: "20px" }}
     placeholder="Select Desired Language"
-    fluid
     search
     selection
     options={options}
