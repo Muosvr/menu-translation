@@ -24,7 +24,7 @@ export default class MenuPointing extends Component {
           />
 
           <Menu.Menu position="right">
-            <Menu.Item name="logout" />
+            <Menu.Item name="login" />
           </Menu.Menu>
         </Menu>
       </div>

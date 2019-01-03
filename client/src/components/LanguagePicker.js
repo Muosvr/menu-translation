@@ -38,7 +38,7 @@ const options = Object.keys(supportedLanguages).map(language => {
   };
 });
 
-const LanguagePicker = () => (
+const LanguagePicker = props => (
   <Dropdown
     style={{ marginTop: "20px", marginBottom: "20px" }}
     placeholder="Select Desired Language"
@@ -46,6 +46,7 @@ const LanguagePicker = () => (
     search
     selection
     options={options}
+    onChange={props.handleOnChange}
   />
 );
 

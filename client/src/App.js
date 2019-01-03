@@ -3,13 +3,10 @@ import Layout from "./components/common/Layout";
 import CardContainer from "./components/CardContainer";
 import { testCards } from "./components/test_objs";
 import axios from "axios";
-import { Dimmer, Loader, Button } from "semantic-ui-react";
+import { Dimmer, Loader, Button, Grid, Segment } from "semantic-ui-react";
 import LanguagePicker from "./components/LanguagePicker";
 
 // test only
-// const countryOptions = [
-//   { key: "af", value: "af", flag: "af", text: "Afghanistan" }
-// ];
 
 class App extends Component {
   constructor() {
@@ -28,12 +25,12 @@ class App extends Component {
     });
   };
 
-  selectLanguage = e => {
-    const languageCode = e.target.value;
-    console.log("language picked");
-    console.log("Selected:", languageCode);
+  selectLanguage = (e, data) => {
+    console.log("language picked:", data.value);
+
+    // event = e.target;
     this.setState({
-      desiredLanguage: languageCode
+      desiredLanguage: data.value
     });
   };
 
@@ -66,37 +63,70 @@ class App extends Component {
     return (
       <div className="App">
         <Layout>
-          <input
-            style={{ marginTop: "20px" }}
-            id="upload"
-            type="file"
-            onChange={e => this.selectFile(e)}
+          <div
+            style={{ display: "block", textAlign: "center", marginTop: "20px" }}
+          >
+            <h3>Upload a photo</h3>
+            <input id="upload" type="file" onChange={e => this.selectFile(e)} />
+          </div>
+
+          <LanguagePicker
+            handleOnChange={this.selectLanguage}
+            style={{ width: "300px" }}
           />
-
-          {/* Testing Only */}
-          <LanguagePicker onChange={e => this.selectLanguage(e)} />
-
-          {/* Testing Only */}
-          <select onChange={e => this.selectLanguage(e)}>
-            <option value="zh">Chinese</option>
-            <option value="en">English</option>
-            <option value="fr">French</option>
-            <option value="es">Spanish</option>
-          </select>
-
-          <Button
-            style={{ marginTop: "20px" }}
-            primary
-            onClick={() => this.upload(false)}
+          <div
+            style={{
+              display: "block",
+              textAlign: "center",
+              marginBottom: "10px"
+            }}
           >
-            Generate Menu By Block
-          </Button>
-          <Button
-            style={{ marginTop: "20px" }}
-            onClick={() => this.upload(true)}
-          >
-            Generate Menu By Line
-          </Button>
+            <h3 tyle={{ marginBottom: "0px", textAlign: "center" }}>
+              {" "}
+              What type of menu is it?
+            </h3>
+          </div>
+
+          <Grid columns={2} doubling stackable>
+            <Grid.Column key={1} style={{ textAlign: "center" }}>
+              <Button
+                style={{ marginTop: "20px" }}
+                primary
+                onClick={() => this.upload(false)}
+              >
+                Menu of Blocks
+              </Button>
+              <Segment>
+                <h3>Menu</h3>
+                <p style={{ marginBottom: "0px", marginTop: "20px" }}>Item</p>
+                <p style={{ margin: "0px" }}>Description</p>
+                <p style={{ marginBottom: "0px", marginTop: "20px" }}>Item</p>
+                <p style={{ margin: "0px" }}>Description</p>
+                <p style={{ marginBottom: "0px", marginTop: "20px" }}>Item</p>
+                <p style={{ margin: "0px" }}>Description</p>
+              </Segment>
+            </Grid.Column>
+
+            <Grid.Column key={2} style={{ textAlign: "center" }}>
+              <Button
+                primary
+                style={{ marginTop: "20px" }}
+                onClick={() => this.upload(true)}
+              >
+                Menu of Lines
+              </Button>
+              <Segment>
+                <h3>Menu</h3>
+                <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
+                <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
+                <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
+                <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
+                <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
+                <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
+              </Segment>
+            </Grid.Column>
+          </Grid>
+
           <Dimmer active={this.state.loading}>
             <Loader />
           </Dimmer>
