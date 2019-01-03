@@ -3,7 +3,15 @@ import Layout from "./components/common/Layout";
 import CardContainer from "./components/CardContainer";
 import { testCards } from "./components/test_objs";
 import axios from "axios";
-import { Dimmer, Loader, Button, Grid, Segment } from "semantic-ui-react";
+import {
+  Dimmer,
+  Loader,
+  Button,
+  Grid,
+  Segment,
+  Icon,
+  Image
+} from "semantic-ui-react";
 import LanguagePicker from "./components/LanguagePicker";
 
 // test only
@@ -15,7 +23,8 @@ class App extends Component {
       file: null,
       loading: false,
       response: JSON.parse(testCards),
-      desiredLanguage: "en"
+      desiredLanguage: "en",
+      loaded: false
     };
   }
 
@@ -23,6 +32,15 @@ class App extends Component {
     this.setState({
       file: e.target.files[0]
     });
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      this.setState({
+        imagePreviewUrl: reader.result,
+        loaded: true
+      });
+    };
+    reader.readAsDataURL(file);
   };
 
   selectLanguage = (e, data) => {
@@ -64,15 +82,42 @@ class App extends Component {
       <div className="App">
         <Layout>
           <div
+            style={{
+              display: "block",
+              textAlign: "center",
+              marginTop: "20px"
+            }}
+          >
+            <h1>To translate a menu</h1>
+            <h3>1. Take/upload a photo of the menu</h3>
+            <Button primary as="label" htmlFor="upload">
+              <Icon name="photo" />
+              Upload
+            </Button>
+            <input
+              hidden
+              id="upload"
+              type="file"
+              onChange={e => this.selectFile(e)}
+            />
+          </div>
+          <Segment hidden={!this.state.loaded}>
+            <Image
+              style={{ marginTop: "20px" }}
+              src={this.state.imagePreviewUrl}
+              alt="menu preview"
+            />
+          </Segment>
+
+          <div
             style={{ display: "block", textAlign: "center", marginTop: "20px" }}
           >
-            <h3>1. Upload a photo</h3>
-            <input id="upload" type="file" onChange={e => this.selectFile(e)} />
-          </div>
-          <div style={{ display: "block", textAlign: "center" }}>
+            <h3 style={{ margin: "0px" }}>
+              2. Pick a language to translate to
+            </h3>
             <LanguagePicker
               handleOnChange={this.selectLanguage}
-              style={{ width: "300px" }}
+              style={{ width: "300px", marginTop: "0px" }}
             />
           </div>
 
@@ -85,7 +130,7 @@ class App extends Component {
           >
             <h3 tyle={{ marginBottom: "0px", textAlign: "center" }}>
               {" "}
-              2. What type of menu is it?
+              3. Tell me what type of menu is it?
             </h3>
           </div>
 
