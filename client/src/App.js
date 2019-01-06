@@ -130,7 +130,7 @@ class App extends Component {
           >
             <h3 tyle={{ marginBottom: "0px", textAlign: "center" }}>
               {" "}
-              3. Tell me what type of menu is it?
+              3. Choose menu layout
             </h3>
           </div>
 
@@ -141,7 +141,7 @@ class App extends Component {
                 primary
                 onClick={() => this.upload(false)}
               >
-                Menu of Blocks
+                Blocks of Text
               </Button>
               <Segment>
                 <h3>Menu</h3>
@@ -160,7 +160,7 @@ class App extends Component {
                 style={{ marginTop: "20px" }}
                 onClick={() => this.upload(true)}
               >
-                Menu of Lines
+                Lines of Text
               </Button>
               <Segment>
                 <h3>Menu</h3>
