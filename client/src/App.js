@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Layout from "./components/common/Layout";
 import CardContainer from "./components/CardContainer";
 import { testCards } from "./components/test_objs";
+import { Container } from "semantic-ui-react";
 import axios from "axios";
 import {
   Dimmer,
@@ -24,7 +25,8 @@ class App extends Component {
       loading: false,
       response: JSON.parse(testCards),
       desiredLanguage: "en",
-      loaded: false
+      loaded: false,
+      byLine: undefined
     };
   }
 
@@ -56,6 +58,10 @@ class App extends Component {
     console.log("Test button clicked");
   };
 
+  // handleLayoutByLine = () => {
+  //   this.setState
+  // }
+
   upload = byLine => {
     // var img = new Image();
     // img.src = e.target.files[0];
@@ -65,6 +71,9 @@ class App extends Component {
     const data = new FormData();
     data.append("image", this.state.file);
     const path = byLine ? "/cards/imageByLine" : "/cards/image";
+    this.setState({
+      byLine: byLine
+    });
     axios
       .post(path + "/" + this.state.desiredLanguage, data)
       .then(res => {
@@ -78,6 +87,12 @@ class App extends Component {
   };
 
   render() {
+    // if (this.state.byLine !== undefined) {
+    //   const byLineButtonBackground = this.state.byLine ? "#2185d0" : "white";
+    //   const notByLineButtonBackground = this.state.byLine ? "white" : "2185d0";
+    //   const byLineButtonColor = this.state.byLine ? "white" : "black";
+    //   const notByLineButtonColor = this.state.byLine ? "black" : "white";
+    // }
     return (
       <div className="App">
         <Layout>
@@ -103,7 +118,8 @@ class App extends Component {
           </div>
           <Segment hidden={!this.state.loaded}>
             <Image
-              style={{ marginTop: "20px" }}
+              fluid
+              style={{ margin: "auto", marginTop: "20px" }}
               src={this.state.imagePreviewUrl}
               alt="menu preview"
             />
@@ -130,49 +146,72 @@ class App extends Component {
           >
             <h3 tyle={{ marginBottom: "0px", textAlign: "center" }}>
               {" "}
-              3. Choose menu layout
+              3. Choose a menu layout
             </h3>
           </div>
-
-          <Grid columns={2} doubling stackable>
-            <Grid.Column key={1} style={{ textAlign: "center" }}>
-              <Button
-                style={{ marginTop: "20px" }}
-                primary
-                onClick={() => this.upload(false)}
+          <Container style={{ textAlign: "center" }}>
+            <Grid
+              columns={2}
+              doubling
+              stackable
+              centered
+              style={{ maxWidth: "550px", margin: "auto" }}
+            >
+              <Grid.Column
+                key={1}
+                style={{
+                  textAlign: "center",
+                  maxWidth: "250px",
+                  margin: "auto"
+                }}
               >
-                Blocks of Text
-              </Button>
-              <Segment>
-                <h3>Menu</h3>
-                <p style={{ marginBottom: "0px", marginTop: "20px" }}>Item</p>
-                <p style={{ margin: "0px" }}>Description</p>
-                <p style={{ marginBottom: "0px", marginTop: "20px" }}>Item</p>
-                <p style={{ margin: "0px" }}>Description</p>
-                <p style={{ marginBottom: "0px", marginTop: "20px" }}>Item</p>
-                <p style={{ margin: "0px" }}>Description</p>
-              </Segment>
-            </Grid.Column>
+                <Button
+                  loading={this.state.loading}
+                  style={{ marginTop: "20px" }}
+                  primary
+                  onClick={() => this.upload(false)}
+                >
+                  Blocks of Text
+                </Button>
+                <Segment>
+                  <h3>Menu</h3>
+                  <p style={{ marginBottom: "0px", marginTop: "20px" }}>Item</p>
+                  <p style={{ margin: "0px" }}>Description</p>
+                  <p style={{ marginBottom: "0px", marginTop: "20px" }}>Item</p>
+                  <p style={{ margin: "0px" }}>Description</p>
+                  <p style={{ marginBottom: "0px", marginTop: "20px" }}>Item</p>
+                  <p style={{ margin: "0px" }}>Description</p>
+                </Segment>
+              </Grid.Column>
 
-            <Grid.Column key={2} style={{ textAlign: "center" }}>
-              <Button
-                primary
-                style={{ marginTop: "20px" }}
-                onClick={() => this.upload(true)}
+              <Grid.Column
+                key={2}
+                style={{
+                  textAlign: "center",
+                  maxWidth: "250px",
+                  margin: "auto"
+                }}
               >
-                Lines of Text
-              </Button>
-              <Segment>
-                <h3>Menu</h3>
-                <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
-                <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
-                <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
-                <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
-                <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
-                <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
-              </Segment>
-            </Grid.Column>
-          </Grid>
+                <Button
+                  loading={this.state.loading}
+                  primary
+                  style={{ marginTop: "20px" }}
+                  onClick={() => this.upload(true)}
+                >
+                  Lines of Text
+                </Button>
+                <Segment>
+                  <h3>Menu</h3>
+                  <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
+                  <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
+                  <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
+                  <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
+                  <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
+                  <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
+                </Segment>
+              </Grid.Column>
+            </Grid>
+          </Container>
 
           <Dimmer active={this.state.loading}>
             <Loader />
