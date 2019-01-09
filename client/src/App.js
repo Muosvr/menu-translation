@@ -158,6 +158,7 @@ class App extends Component {
               style={{ maxWidth: "550px", margin: "auto" }}
             >
               <Grid.Column
+                centered
                 key={1}
                 style={{
                   textAlign: "center",
@@ -166,14 +167,12 @@ class App extends Component {
                 }}
               >
                 <Button
-                  loading={this.state.loading}
-                  style={{ marginTop: "20px" }}
-                  primary
-                  onClick={() => this.upload(false)}
+                  style={{ marginTop: "20px", width: "250px" }}
+                  onClick={() => this.setState({ byLine: false })}
+                  primary={
+                    !this.state.byLine && this.state.byLine !== undefined
+                  }
                 >
-                  Blocks of Text
-                </Button>
-                <Segment>
                   <h3>Menu</h3>
                   <p style={{ marginBottom: "0px", marginTop: "20px" }}>Item</p>
                   <p style={{ margin: "0px" }}>Description</p>
@@ -181,10 +180,11 @@ class App extends Component {
                   <p style={{ margin: "0px" }}>Description</p>
                   <p style={{ marginBottom: "0px", marginTop: "20px" }}>Item</p>
                   <p style={{ margin: "0px" }}>Description</p>
-                </Segment>
+                </Button>
               </Grid.Column>
 
               <Grid.Column
+                centered
                 key={2}
                 style={{
                   textAlign: "center",
@@ -193,14 +193,10 @@ class App extends Component {
                 }}
               >
                 <Button
-                  loading={this.state.loading}
-                  primary
-                  style={{ marginTop: "20px" }}
-                  onClick={() => this.upload(true)}
+                  style={{ marginTop: "20px", width: "250px" }}
+                  onClick={() => this.setState({ byLine: true })}
+                  primary={this.state.byLine && this.state.byLine !== undefined}
                 >
-                  Lines of Text
-                </Button>
-                <Segment>
                   <h3>Menu</h3>
                   <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
                   <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
@@ -208,14 +204,19 @@ class App extends Component {
                   <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
                   <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
                   <p style={{ marginBottom: "0px", marginTop: "10px" }}>Item</p>
-                </Segment>
+                </Button>
               </Grid.Column>
             </Grid>
+            <Button
+              primary
+              style={{ marginTop: "20px" }}
+              onClick={() => this.upload(this.byLine)}
+              loading={this.state.loading}
+            >
+              Generate Menu
+            </Button>
           </Container>
 
-          <Dimmer active={this.state.loading}>
-            <Loader />
-          </Dimmer>
           <CardContainer response={this.state.response} />
         </Layout>
       </div>
