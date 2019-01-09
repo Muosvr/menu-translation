@@ -210,7 +210,7 @@ class App extends Component {
             <Button
               primary
               style={{ marginTop: "20px" }}
-              onClick={() => this.upload(this.byLine)}
+              onClick={() => this.upload(this.state.byLine)}
               loading={this.state.loading}
             >
               Generate Menu
