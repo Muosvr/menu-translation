@@ -48,7 +48,7 @@ const createCards = async (collection, byLine, targetLanguage, referer) => {
   });
 
   async function populateCard(item, description) {
-    var numOfImageToSearch = 3;
+    var numOfImageToSearch = 6;
     imageSeachQueryCount++;
 
     if (imageSeachQueryCount <= maxImageSearchQueries) {

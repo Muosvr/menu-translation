@@ -35,7 +35,8 @@
     "express-fileupload": "^1.0.0",
     "mocha": "^5.2.0",
     "request": "^2.88.0",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "validate-image-url": "^1.0.1"
   },
   "devDependencies": {
     "nodemon": "^1.18.9"
