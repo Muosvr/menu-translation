@@ -10,7 +10,7 @@ const language = "en";
 router.get("/:language", (req, res) => {
   translate(text, req.params.language, req.get("host"))
     .then(response => {
-      res.json({ ["The translation of " + "'" + text + "'" + "is"]: response });
+      res.json({ response });
     })
     .catch(err => {
       res.send(err);

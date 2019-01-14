@@ -19,8 +19,8 @@ router.post("/", (req, res) => {
 
   imageOCR(base64Image, "DOCUMENT_TEXT_DETECTION", req.get("host"))
     .then(response => {
-      // const parsedText = parseOCRAnnotation(response);
-      res.json(response);
+      const parsedText = parseOCRAnnotation(response);
+      res.json(parsedText);
     })
     .catch(err => {
       console.log(err);
