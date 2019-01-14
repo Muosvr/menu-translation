@@ -4,15 +4,18 @@
 const hasFoodLabels = collection => {
   tolerance = 0.6;
   var foodVote = 0;
-  collection.forEach(set => {
-    if (set.join(" ").includes("food")) {
+  foodIndex = [];
+  collection.forEach((set, index) => {
+    const joinedSet = set.join(" ");
+    if (joinedSet.includes("food") || joinedSet.includes("drink")) {
+      foodIndex.push(index);
       foodVote++;
     }
   });
 
   if (foodVote / collection.length >= tolerance) {
     // console.log("Food");
-    return true;
+    return foodIndex;
   } else {
     // console.log("Not Food");
     return false;

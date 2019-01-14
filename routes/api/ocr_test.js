@@ -4,7 +4,7 @@ const vision = require("@google-cloud/vision");
 const parseOCRAnnotation = require("../../utils/parseOCRAnnotation");
 const imageOCR = require("../../googleAPI/imageOCR");
 
-// @route GET /main
+// @route GET /ocr
 // @desc main interface
 // @access Public
 router.post("/", (req, res) => {

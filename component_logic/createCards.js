@@ -3,6 +3,7 @@ const searchImage = require("../googleAPI/searchImage");
 const translate = require("../googleAPI/translate");
 const getImageLabels = require("./getImageLabels");
 const hasFoodLabels = require("./hasFoodLabels");
+const cleanImageUrls = require("../utils/cleanImageUrls");
 
 // Create card objects
 // @param collection {object[]} - array of parsed text objects in the format of [{0: text, 1: text, ...}, ...]
@@ -57,6 +58,7 @@ const createCards = async (collection, byLine, targetLanguage, referer) => {
         numOfImageToSearch,
         referer
       );
+      item["images"] = cleanImageUrls(item["images"]);
       item["imageLabels"] = await getImageLabels(item["images"], referer);
       item["isFood"] = hasFoodLabels(item["imageLabels"]);
     } else {

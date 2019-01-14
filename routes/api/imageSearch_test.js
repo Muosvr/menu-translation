@@ -3,8 +3,9 @@ const searchImage = require("../../googleAPI/searchImage");
 
 const router = express.Router();
 
+// @route GET /search
 router.get("/", (req, res) => {
-  searchImage("房子", 5, req.get("host")).then(response => {
+  searchImage("炒花蟹", 10, req.get("host")).then(response => {
     res.json({ msg: response });
   });
 });

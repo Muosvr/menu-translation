@@ -6,7 +6,7 @@ const fs = require("fs");
 
 const router = express.Router();
 
-// @route POST /cards/image
+// @route POST /cards/image/:language
 // @desc Create cards from blocks of text as recognized by Google annotator
 // @access Public
 router.post("/image/:language", (req, res) => {
@@ -38,7 +38,7 @@ router.post("/image/:language", (req, res) => {
     });
 });
 
-// @route POST /cards/imageByLine
+// @route POST /cards/imageByLine/:language
 // @desc Create card for each new line
 // @access Public
 router.post("/imageByLine/:language", (req, res) => {

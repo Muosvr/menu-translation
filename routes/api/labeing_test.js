@@ -10,6 +10,7 @@ urls = [
   "https://ichef.bbci.co.uk/food/ic/food_16x9_832/recipes/one_pot_chorizo_and_15611_16x9.jpg"
 ];
 
+// @route GET /label
 router.get("/", (req, res) => {
   // batchAnnotateImages(urls, "LABEL_DETECTION", req.get("host")).then(
   //   response => {

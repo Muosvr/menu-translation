@@ -3,6 +3,7 @@ const getSupportedLanguages = require("../../googleAPI/getSupportedLanguages");
 
 const router = express.Router();
 
+// @route GET /suppoertedLanguages
 router.get("/", (req, res) => {
   getSupportedLanguages(req.get("host"))
     .then(response => {
