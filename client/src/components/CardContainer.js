@@ -3,7 +3,6 @@ import { Grid } from "semantic-ui-react";
 import Card from "./Card";
 
 export default function CardContainer(props) {
-  // console.log(props.response);
   try {
     const cards = props.response["cards"]
       .filter(card => card.isFood)
