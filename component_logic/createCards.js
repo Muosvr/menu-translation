@@ -4,6 +4,7 @@ const translate = require("../googleAPI/translate");
 const getImageLabels = require("./getImageLabels");
 const hasFoodLabels = require("./hasFoodLabels");
 const cleanImageUrls = require("../utils/cleanImageUrls");
+const saveImageSearch = require("./saveImageSearch");
 
 // Create card objects
 // @param collection {object[]} - array of parsed text objects in the format of [{0: text, 1: text, ...}, ...]
@@ -48,6 +49,7 @@ const createCards = async (collection, byLine, targetLanguage, referer) => {
     }
   });
 
+  // Populate fields in cards
   async function populateCard(item, description) {
     var numOfImageToSearch = 6;
     imageSeachQueryCount++;
@@ -58,6 +60,7 @@ const createCards = async (collection, byLine, targetLanguage, referer) => {
         numOfImageToSearch,
         referer
       );
+      saveImageSearch(description, item["images"]);
       item["images"] = cleanImageUrls(item["images"]);
       item["imageLabels"] = await getImageLabels(item["images"], referer);
       item["isFood"] = hasFoodLabels(item["imageLabels"]);

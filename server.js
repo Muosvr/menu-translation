@@ -2,6 +2,16 @@ const express = require("express");
 const fileUpload = require("express-fileupload");
 const cards = require("./routes/api/cards");
 const path = require("path");
+const mongoose = require("mongoose");
+
+// DB config
+const db = require("./config/keys").mongoURI;
+
+// Connect to MongoDB
+mongoose
+  .connect(db)
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log(err));
 
 const app = express();
 
@@ -14,6 +24,7 @@ const imageSearch_test = require("./routes/api/imageSearch_test");
 const translate_test = require("./routes/api/translate_test");
 const labeling_test = require("./routes/api/labeing_test");
 const getSupportedLanguages = require("./routes/api/supportedLanguages");
+const imageSearchFromDB_test = require("./routes/api/imageSearchFromDB_test");
 
 // Server static assets if in production
 // ToDo: refactoring
@@ -37,6 +48,7 @@ app.use("/ocr", ocr_test);
 app.use("/translate", translate_test);
 app.use("/label", labeling_test);
 app.use("/supportedLanguages", getSupportedLanguages);
+app.use("/searchDB", imageSearchFromDB_test);
 
 // Get cards
 app.use("/cards", cards);

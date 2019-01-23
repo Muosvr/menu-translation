@@ -35,6 +35,7 @@ const searchImage = async (keyphrase, numOfResults, referer) => {
     console.log("no image found for this item");
   }
   // console.log(response);
+
   return imageURLs;
 };
 
