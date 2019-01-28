@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Icon, Segment, Image } from "semantic-ui-react";
-// import sampleImage from "./sample.jpg";
+import sampleImage from "./sample.png";
 
 // function binEncode(data) {
 //   var binArray = [];
@@ -92,6 +92,18 @@ export default class SelectFile extends Component {
             onChange={e => this.selectFile(e)}
           />
         </div>
+        <Segment
+          hidden={this.state.imagePreviewUrl}
+          style={{ textAlign: "center" }}
+        >
+          <p>Sample image (see results below)</p>
+          <Image
+            fluid
+            style={{ margin: "auto", marginTop: "20px" }}
+            src={sampleImage}
+            alt="menu preview"
+          />
+        </Segment>
         <Segment hidden={!this.state.imagePreviewUrl}>
           <Image
             fluid
