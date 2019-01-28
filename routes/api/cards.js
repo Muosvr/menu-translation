@@ -6,6 +6,32 @@ const fs = require("fs");
 
 const router = express.Router();
 
+// @router GET /cards/sampleimage
+// @desc generate menu based on sample image
+// @access Public
+// Not working yet
+router.get("/sampleimage", (req, res) => {
+  const file = fs.readFileSync("./test_images/sample.jpg");
+  console.log("file read");
+
+  const base64Image = file.toString("base64");
+
+  imageOCR(base64Image, "DOCUMENT_TEXT_DETECTION", req.get("host"))
+    .then(annotation => {
+      return parseOCRAnnotation(annotation);
+    })
+    .then(parsed => {
+      createCards(parsed, byLine, req.params.language, req.get("host")).then(
+        cards => {
+          res.json({ cards: cards });
+        }
+      );
+    })
+    .catch(err => {
+      res.json("error:", err);
+    });
+});
+
 // @route POST /cards/image/:language
 // @desc Create cards from blocks of text as recognized by Google annotator
 // @access Public

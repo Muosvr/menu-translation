@@ -2,9 +2,16 @@
 // @param collection {string[[]]} - nested array of strings containing labels for images
 // returns {boot}
 const hasFoodLabels = collection => {
-  tolerance = 0.6;
+  tolerance = 0.4;
   var foodVote = 0;
   foodIndex = [];
+
+  // Filter out bad image links
+  collection = collection.filter(labels => {
+    return labels[0] != "cannot access image";
+  });
+  console.log(collection);
+
   collection.forEach((set, index) => {
     const joinedSet = set.join(" ");
     if (joinedSet.includes("food") || joinedSet.includes("drink")) {

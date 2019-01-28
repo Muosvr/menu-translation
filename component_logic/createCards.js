@@ -12,7 +12,7 @@ const saveImageSearch = require("./saveImageSearch");
 // @param targetLanguage {string} - e.g. "en", "zh-CN", "es" for English, Simplified Chinese, Spanish
 const createCards = async (collection, byLine, targetLanguage, referer) => {
   // For testing only
-  const maxImageSearchQueries = 50;
+  const maxImageSearchQueries = 100;
   var imageSeachQueryCount = 0;
 
   const parsedCollection = byLine ? lineByLine(collection) : collection;

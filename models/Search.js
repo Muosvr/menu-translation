@@ -15,8 +15,7 @@ const SearchSchema = new Schema({
     }
   ],
   isFood: {
-    type: Boolean,
-    required: true
+    type: Boolean
   }
 });
 

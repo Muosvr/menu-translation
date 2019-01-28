@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-import { Button } from "semantic-ui-react";
+import { Button, Message, Container } from "semantic-ui-react";
 import axios from "axios";
 
 export default class UploadToServer extends Component {
   constructor() {
     super();
     this.state = {
-      loading: false
+      loading: false,
+      error: false
     };
   }
 
@@ -23,18 +24,21 @@ export default class UploadToServer extends Component {
       axios
         .post(path + "/" + this.props.desiredLanguage, data)
         .then(res => {
-          console.log(res["data"]);
+          // console.log(res["data"]);
           this.props.setResponse(res["data"]);
           this.setState({
             loading: false
           });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          this.setState({ loading: false, error: err.message });
+          console.log(err);
+        });
     }
   };
   render() {
     return (
-      <div>
+      <Container>
         <Button
           primary
           style={{ marginTop: "20px" }}
@@ -43,7 +47,10 @@ export default class UploadToServer extends Component {
         >
           Generate Menu
         </Button>
-      </div>
+        <Message negative hidden={!this.state.error}>
+          Error: {this.state.error}
+        </Message>
+      </Container>
     );
   }
 }
