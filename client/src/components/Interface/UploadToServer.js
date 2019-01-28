@@ -26,7 +26,8 @@ export default class UploadToServer extends Component {
       });
     } else {
       this.setState({
-        loading: true
+        loading: true,
+        error: false
       });
       const data = new FormData();
       data.append("image", this.props.file);
