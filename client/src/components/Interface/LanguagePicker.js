@@ -13,7 +13,6 @@ const options = Object.keys(supportedLanguages).map(language => {
 class LanguagePicker extends Component {
   setLanguage = (e, data) => {
     this.props.setLanguage(data.value);
-    console.log("picker local:", data.value);
   };
   render() {
     return (

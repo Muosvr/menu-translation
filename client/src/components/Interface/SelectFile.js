@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Icon, Segment, Image } from "semantic-ui-react";
-import sampleImage from "./sample.jpg";
+// import sampleImage from "./sample.jpg";
 
 // function binEncode(data) {
 //   var binArray = [];

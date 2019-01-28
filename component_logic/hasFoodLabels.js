@@ -8,9 +8,8 @@ const hasFoodLabels = collection => {
 
   // Filter out bad image links
   collection = collection.filter(labels => {
-    return labels[0] != "cannot access image";
+    return labels[0] != "No labels found";
   });
-  console.log(collection);
 
   collection.forEach((set, index) => {
     const joinedSet = set.join(" ");
@@ -21,10 +20,12 @@ const hasFoodLabels = collection => {
   });
 
   if (foodVote / collection.length >= tolerance) {
-    // console.log("Food");
     return foodIndex;
   } else {
     // console.log("Not Food");
+    // console.log("collection", collection);
+    // console.log("foodVote", foodVote);
+    // console.log("collection length", collection.length);
     return false;
   }
 };

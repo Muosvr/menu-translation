@@ -9,7 +9,7 @@ export default class Interface extends Component {
     super();
     this.state = {
       file: null,
-      desiredLanguage: "en",
+      desiredLanguage: undefined,
       byLine: undefined
     };
   }

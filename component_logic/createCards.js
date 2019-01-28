@@ -26,7 +26,7 @@ const createCards = async (collection, byLine, targetLanguage, referer) => {
     await populateCard(card, card["description"][0]);
     const keys = Object.keys(card["description"]);
 
-    if (!card["isFood"]) {
+    if (!card["isFood"] && keys.length > 1) {
       const longDescription = keys
         .map(key => {
           return card["description"][key];

@@ -6,10 +6,10 @@ const parseImageLabels = response => {
     const collection = response["responses"].map(item => {
       if (item["labelAnnotations"]) {
         return item["labelAnnotations"].map(label => {
-          return label.description;
+          return label.description.toLowerCase();
         });
       } else {
-        return ["cannot access image"];
+        return ["No labels found"];
       }
     });
     return collection;

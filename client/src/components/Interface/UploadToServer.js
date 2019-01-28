@@ -12,8 +12,18 @@ export default class UploadToServer extends Component {
   }
 
   upload = byLine => {
-    if (byLine === undefined) {
-      console.log("Error: please pick a layout");
+    if (!this.props.file) {
+      this.setState({
+        error: "Please upload an image"
+      });
+    } else if (!this.props.desiredLanguage) {
+      this.setState({
+        error: "Please pick a desired language"
+      });
+    } else if (byLine === undefined) {
+      this.setState({
+        error: "Please select a layout"
+      });
     } else {
       this.setState({
         loading: true
@@ -24,14 +34,21 @@ export default class UploadToServer extends Component {
       axios
         .post(path + "/" + this.props.desiredLanguage, data)
         .then(res => {
-          // console.log(res["data"]);
+          // Testing
+          console.log(res["data"]);
+
           this.props.setResponse(res["data"]);
+          if (res["data"]["cards"].length < 1) {
+            this.setState({
+              error: "Cannot find any food or drink items"
+            });
+          }
           this.setState({
             loading: false
           });
         })
         .catch(err => {
-          this.setState({ loading: false, error: err.message });
+          this.setState({ loading: false, error: err });
           console.log(err);
         });
     }
