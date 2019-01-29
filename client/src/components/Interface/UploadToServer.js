@@ -7,14 +7,24 @@ export default class UploadToServer extends Component {
     super();
     this.state = {
       loading: false,
-      error: false
+      error: false,
+      file: null
     };
   }
+  srcToFile = async (src, fileName, mimeType) => {
+    return fetch(src)
+      .then(function(res) {
+        return res.arrayBuffer();
+      })
+      .then(function(buf) {
+        return new File([buf], fileName, { type: mimeType });
+      });
+  };
 
   upload = byLine => {
     if (!this.props.file) {
       this.setState({
-        error: "Please upload an image"
+        error: "No image uploaded"
       });
     } else if (!this.props.desiredLanguage) {
       this.setState({
@@ -29,9 +39,11 @@ export default class UploadToServer extends Component {
         loading: true,
         error: false
       });
+
       const data = new FormData();
       data.append("image", this.props.file);
       const path = byLine ? "/cards/imageByLine" : "/cards/image";
+
       axios
         .post(path + "/" + this.props.desiredLanguage, data)
         .then(res => {

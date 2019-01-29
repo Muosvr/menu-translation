@@ -8,7 +8,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      response: testCards
+      response: null
     };
   }
 

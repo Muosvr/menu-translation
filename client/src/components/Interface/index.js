@@ -30,7 +30,7 @@ export default class Interface extends Component {
 
   render() {
     return (
-      <div style={{ textAlign: "center" }}>
+      <div style={{ textAlign: "center", marginBottom: "20px" }}>
         <SelectFile setFile={this.setFile} />
         <LanguagePicker setLanguage={this.setLanguage} />
         <MenuLayout setByLine={this.setByLine} />

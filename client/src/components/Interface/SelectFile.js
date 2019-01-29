@@ -2,42 +2,6 @@ import React, { Component } from "react";
 import { Button, Icon, Segment, Image } from "semantic-ui-react";
 import sampleImage from "./sample.png";
 
-// function binEncode(data) {
-//   var binArray = [];
-//   var datEncode = "";
-
-//   for (var i = 0; i < data.length; i++) {
-//     binArray.push(data[i].charCodeAt(0).toString(2));
-//   }
-//   for (var j = 0; j < binArray.length; j++) {
-//     var pad = padding_left(binArray[j], "0", 8);
-//     datEncode += pad + " ";
-//   }
-//   function padding_left(s, c, n) {
-//     if (!s || !c || s.length >= n) {
-//       return s;
-//     }
-//     var max = (n - s.length) / c.length;
-//     for (var i = 0; i < max; i++) {
-//       s = c + s;
-//     }
-//     return s;
-//   }
-//   return binArray;
-// }
-
-// var canvas = document.createElement("canvas");
-// var ctx = canvas.getContext("2d");
-// var img = new Image();
-// img.onload = function() {
-//   canvas.width = img.width;
-//   canvas.height = img.height;
-//   ctx.drawImage(img, 0, 0);
-//   var data = canvas.toDataURL("image/jpeg");
-//   alert(data);
-// };
-// img.src = sampleImage;
-
 export default class SelectFile extends Component {
   constructor() {
     super();
@@ -47,9 +11,20 @@ export default class SelectFile extends Component {
     };
   }
 
+  srcToFile = (src, fileName, mimeType) => {
+    return fetch(src)
+      .then(function(res) {
+        return res.arrayBuffer();
+      })
+      .then(function(buf) {
+        return new File([buf], fileName, { type: mimeType });
+      });
+  };
+
   selectFile = e => {
     let reader = new FileReader();
     let file = e.target.files[0];
+
     reader.onloadend = () => {
       this.setState({
         imagePreviewUrl: reader.result
@@ -59,13 +34,26 @@ export default class SelectFile extends Component {
     this.props.setFile(e.target.files[0]);
   };
 
-  // useSample = () => {
-  //   this.setState({
-  //     imagePreviewUrl: sampleImage
-  //   });
-  //   // const file = binEncode(dataInBase64);
-  //   this.props.setFile(img);
-  // };
+  srcToFile = (src, fileName, mimeType) => {
+    return fetch(src)
+      .then(function(res) {
+        return res.arrayBuffer();
+      })
+      .then(function(buf) {
+        return new File([buf], fileName, { type: mimeType });
+      });
+  };
+
+  useSample = () => {
+    this.setState({
+      imagePreviewUrl: sampleImage
+    });
+    this.srcToFile(sampleImage, "sample.png", "image/png").then(file => {
+      this.props.setFile(file);
+
+      // console.log("file", file);
+    });
+  };
 
   render() {
     return (
@@ -84,7 +72,7 @@ export default class SelectFile extends Component {
             Upload
           </Button>
           {/* <p>No menu in front of you? Try a sample menu</p> */}
-          {/* <Button onClick={this.useSample}>Use sample menu</Button> */}
+          <Button onClick={this.useSample}>Use sample menu</Button>
           <input
             hidden
             id="upload"
@@ -92,18 +80,6 @@ export default class SelectFile extends Component {
             onChange={e => this.selectFile(e)}
           />
         </div>
-        <Segment
-          hidden={this.state.imagePreviewUrl}
-          style={{ textAlign: "center" }}
-        >
-          <p>Sample image (see results below)</p>
-          <Image
-            fluid
-            style={{ margin: "auto", marginTop: "20px" }}
-            src={sampleImage}
-            alt="menu preview"
-          />
-        </Segment>
         <Segment hidden={!this.state.imagePreviewUrl}>
           <Image
             fluid
