@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Button, Icon, Segment, Image } from "semantic-ui-react";
-import sampleImage from "./sample.png";
+import sampleImage1 from "./sampleMenu/sample1.png";
+import sampleImage2 from "./sampleMenu/sample2.png";
+import sampleImage3 from "./sampleMenu/sample3.jpg";
+import sampleImage4 from "./sampleMenu/sample4.jpg";
+import sampleImage5 from "./sampleMenu/sample5.jpg";
 
 export default class SelectFile extends Component {
   constructor() {
@@ -45,14 +49,23 @@ export default class SelectFile extends Component {
   };
 
   useSample = () => {
+    const sampleImages = [
+      sampleImage1,
+      sampleImage2,
+      sampleImage3,
+      sampleImage4,
+      sampleImage5
+    ];
+    const index = Math.floor(Math.random() * sampleImages.length);
     this.setState({
-      imagePreviewUrl: sampleImage
+      imagePreviewUrl: sampleImages[index]
     });
-    this.srcToFile(sampleImage, "sample.png", "image/png").then(file => {
-      this.props.setFile(file);
 
-      // console.log("file", file);
-    });
+    this.srcToFile(sampleImages[index], "sample.png", "image/png").then(
+      file => {
+        this.props.setFile(file);
+      }
+    );
   };
 
   render() {
@@ -72,7 +85,7 @@ export default class SelectFile extends Component {
             Upload
           </Button>
           {/* <p>No menu in front of you? Try a sample menu</p> */}
-          <Button onClick={this.useSample}>Use sample menu</Button>
+          <Button onClick={this.useSample}>Use a random sample menu</Button>
           <input
             hidden
             id="upload"
