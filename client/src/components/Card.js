@@ -63,7 +63,7 @@ class CardExampleCard extends Component {
           Next image
         </Button> */}
         <Button fluid onClick={this.nextImage}>
-          Click for another image
+          Get a different image
         </Button>
         <Card.Content>
           <Card.Header>{this.props.card.description[0]}</Card.Header>

@@ -29,11 +29,12 @@ export default class MenuLayout extends Component {
             3. Choose a menu layout
           </h3>
         </div>
-        <Container style={{ textAlign: "center" }}>
+        <Container>
           <Grid
             columns={2}
             doubling
             stackable
+            centered
             style={{ maxWidth: "550px", margin: "auto" }}
           >
             <Grid.Column
@@ -41,11 +42,11 @@ export default class MenuLayout extends Component {
               style={{
                 textAlign: "center",
                 maxWidth: "250px",
-                margin: "auto"
+                margin: "10px"
               }}
             >
               <Button
-                style={{ marginTop: "20px", width: "250px" }}
+                style={{ width: "250px" }}
                 onClick={() => this.setByLine(false)}
                 primary={!this.state.byLine && this.state.byLine !== undefined}
               >
@@ -64,11 +65,11 @@ export default class MenuLayout extends Component {
               style={{
                 textAlign: "center",
                 maxWidth: "250px",
-                margin: "auto"
+                margin: "10px"
               }}
             >
               <Button
-                style={{ marginTop: "20px", width: "250px" }}
+                style={{ width: "250px" }}
                 onClick={() => this.setByLine(true)}
                 primary={this.state.byLine && this.state.byLine !== undefined}
               >
