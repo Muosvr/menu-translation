@@ -56,12 +56,7 @@ class CardExampleCard extends Component {
       <Card fluid key={this.props.keyProp} style={{ overflow: "hidden" }}>
         <div style={{ maxHeight: "300px", overflow: "hidden" }}>
           <Image src={this.state.imageURL} fluid />
-
-          {/* {validateImage()[0]} */}
         </div>
-        {/* <Button fluid onClick={this.nextImage}>
-          Next image
-        </Button> */}
         <Button fluid onClick={this.nextImage}>
           Get a different image
         </Button>
