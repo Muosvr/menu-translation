@@ -32,20 +32,7 @@ class CardExampleCard extends Component {
       });
     return details;
   };
-  // const validateImage = async () => {
-  //   const image = await validator({
-  //     url: props.card.images[props.card.isFood[0]],
-  //     timeout: 2000
-  //   })
-  //     .then(({ image, url }) => {
-  //       return <Image src={image} fluid />;
-  //     })
-  //     .catch(err => {
-  //       return <p>Image temperarily unavailable</p>;
-  //     });
 
-  //   return image;
-  // };
   componentDidMount() {
     this.setState({
       imageURL: this.props.card.images[this.props.card.isFood[0]],
@@ -53,35 +40,14 @@ class CardExampleCard extends Component {
     });
   }
 
-  componentWillReceiveProps() {
-    this.setState({
-      imageURL: this.props.card.images[this.props.card.isFood[0]],
-      numOfValidImages: this.props.card.isFood.length
-    });
-  }
-
-  // componentWillUpdate() {
-  //   this.setState({
-  //     imageURL: this.props.card.images[this.props.card.isFood[0]],
-  //     numOfValidImages: this.props.card.isFood.length
-  //   });
-  // }
-
-  // componentWillReceiveProps() {
-  //   this.setState({
-  //     imageURL: this.props.card.images[this.props.card.isFood[0]],
-  //     numOfValidImages: this.props.card.isFood.length
-  //   });
-  // }
   nextImage = () => {
-    const numOfValidImagess = this.props;
+    const validIndexes = this.props.card.isFood;
+    const length = validIndexes.length;
     this.setState({
       imageURL: this.props.card.images[
-        this.props.card.isFood[
-          (this.state.imageIndex + 1) % this.state.numOfValidImages
-        ]
+        validIndexes[(this.state.imageIndex + 1) % length]
       ],
-      imageIndex: (this.state.imageIndex + 1) % this.state.numOfValidImages
+      imageIndex: (this.state.imageIndex + 1) % length
     });
   };
 
@@ -89,21 +55,17 @@ class CardExampleCard extends Component {
     return (
       <Card fluid key={this.props.keyProp} style={{ overflow: "hidden" }}>
         <div style={{ maxHeight: "300px", overflow: "hidden" }}>
-          <Image
-            src={this.props.card.images[this.props.card.isFood[0]]}
-            fluid
-          />
+          <Image src={this.state.imageURL} fluid />
 
           {/* {validateImage()[0]} */}
         </div>
         {/* <Button fluid onClick={this.nextImage}>
           Next image
         </Button> */}
-
+        <Button fluid onClick={this.nextImage}>
+          Click for another image
+        </Button>
         <Card.Content>
-          {/* <Card.Meta style={{ marginBottom: "10px", textAlign: "center" }}>
-            <Button onClick={this.reloadImage}>Reload image</Button>
-          </Card.Meta> */}
           <Card.Header>{this.props.card.description[0]}</Card.Header>
           <Card.Meta>
             (

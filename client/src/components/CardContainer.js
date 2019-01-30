@@ -8,7 +8,7 @@ export default function CardContainer(props) {
       .filter(card => card.isFood)
       .map((card, index) => {
         return (
-          <Grid.Column key={index}>
+          <Grid.Column key={Math.random()}>
             <Card card={card} />
           </Grid.Column>
         );
