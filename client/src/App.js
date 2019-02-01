@@ -8,29 +8,47 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      upload: false,
       response: null
     };
   }
+
+  setUpload = () => {
+    this.setState({
+      upload: true
+    });
+  };
 
   setResponse = response => {
     this.setState({ response });
   };
   render() {
-    const Interface = <Interface setResponse={this.setResponse} />;
-    // const Index = () => <h2>Home</h2>;
-
     return (
       <Router>
         <div className="App">
-          {/* <Link to="/index">Index</Link> */}
           <Layout>
-            {/* <Link to="/">Interface</Link> */}
-
-            <Route path="/" component={Interface} />
-            {/* <Interface /> */}
-            <CardContainer response={this.state.response} />
+            <Route
+              path="/"
+              exact
+              render={props => (
+                <Interface
+                  {...props}
+                  setResponse={this.setResponse}
+                  setUpload={this.setUpload}
+                />
+              )}
+            />
+            <Route
+              path="/cards"
+              render={props => (
+                <CardContainer
+                  {...props}
+                  upload={this.state.upload}
+                  response={this.state.response}
+                />
+              )}
+            />
           </Layout>
-          {/* <Route path="/index" component={Index} /> */}
         </div>
       </Router>
     );

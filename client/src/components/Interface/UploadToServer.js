@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Message, Container } from "semantic-ui-react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default class UploadToServer extends Component {
   constructor() {
@@ -35,6 +36,7 @@ export default class UploadToServer extends Component {
         error: "Please select a layout"
       });
     } else {
+      this.props.setUpload();
       this.setState({
         loading: true,
         error: false
@@ -69,14 +71,17 @@ export default class UploadToServer extends Component {
   render() {
     return (
       <Container>
-        <Button
-          primary
-          style={{ marginTop: "20px" }}
-          onClick={() => this.upload(this.props.byLine)}
-          loading={this.state.loading}
-        >
-          Generate Menu
-        </Button>
+        <Link to="/cards">
+          <Button
+            primary
+            style={{ marginTop: "20px" }}
+            onClick={() => this.upload(this.props.byLine)}
+            loading={this.state.loading}
+          >
+            Generate Menu
+          </Button>
+        </Link>
+
         <Message negative hidden={!this.state.error}>
           Error: {this.state.error}
         </Message>

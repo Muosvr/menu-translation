@@ -74,11 +74,9 @@ export default class SelectFile extends Component {
         <div
           style={{
             display: "block",
-            textAlign: "center",
-            marginTop: "20px"
+            textAlign: "center"
           }}
         >
-          <h1>To translate a menu</h1>
           <h3>1. Take/upload a photo of the menu</h3>
           <Button primary as="label" htmlFor="upload">
             <Icon name="photo" />

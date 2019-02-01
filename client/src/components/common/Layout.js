@@ -6,8 +6,9 @@ import Menu from "./Menu";
 
 export default props => {
   return (
-    <Container style={{ marginTop: "20px" }}>
-      <Menu />
+    <Container style={{ marginTop: "20px", textAlign: "center" }}>
+      {/* <Menu /> */}
+      <h1>Menu Translator</h1>
       {props.children}
     </Container>
   );
