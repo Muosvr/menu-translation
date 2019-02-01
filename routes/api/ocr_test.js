@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const vision = require("@google-cloud/vision");
-const parseOCRAnnotation = require("../../utils/parseOCRAnnotation");
+// const parseOCRAnnotation = require("../../utils/parseOCRAnnotation");
+const parseOCRAnnotationWithCoords = require("../../utils/parseOCRAnnotationWithCoords");
 const imageOCR = require("../../googleAPI/imageOCR");
 
 // @route GET /ocr
@@ -19,7 +20,8 @@ router.post("/", (req, res) => {
 
   imageOCR(base64Image, "DOCUMENT_TEXT_DETECTION", req.get("host"))
     .then(response => {
-      const parsedText = parseOCRAnnotation(response);
+      // const parsedText = parseOCRAnnotation(response);
+      const parsedText = parseOCRAnnotationWithCoords(response);
       res.json(parsedText);
     })
     .catch(err => {
