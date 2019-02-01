@@ -4,6 +4,7 @@ import CardContainer from "./components/CardContainer";
 import Interface from "./components/Interface";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import createBrowserHistory from "history/createBrowserHistory";
+import MenuEditor from "./components/Interface/MenuEditor";
 const customHistory = createBrowserHistory();
 
 class App extends Component {
@@ -55,6 +56,13 @@ class App extends Component {
                 />
               )}
             />
+            <Route
+              path="/editmenu"
+              render={props => (
+                <MenuEditor {...props} menuImage={this.state.image} />
+              )}
+            />
+
             <Route
               path="/cards"
               render={props => (
