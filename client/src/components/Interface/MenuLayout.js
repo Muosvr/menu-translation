@@ -26,7 +26,7 @@ export default class MenuLayout extends Component {
         >
           <h3 tyle={{ marginBottom: "0px", textAlign: "center" }}>
             {" "}
-            3. Choose a menu layout
+            3. Choose a layout that matches with the menu
           </h3>
         </div>
         <Container>

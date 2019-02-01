@@ -38,6 +38,7 @@ export default class Interface extends Component {
         <LanguagePicker setLanguage={this.setLanguage} />
         <MenuLayout setByLine={this.setByLine} />
         <UploadToServer
+          history={this.props.history}
           desiredLanguage={this.state.desiredLanguage}
           file={this.state.file}
           setUpload={this.props.setUpload}

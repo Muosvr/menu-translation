@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Message, Container } from "semantic-ui-react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 export default class UploadToServer extends Component {
   constructor() {
@@ -22,7 +22,7 @@ export default class UploadToServer extends Component {
       });
   };
 
-  upload = byLine => {
+  upload = (byLine, history) => {
     if (!this.props.file) {
       this.setState({
         error: "No image uploaded"
@@ -36,6 +36,7 @@ export default class UploadToServer extends Component {
         error: "Please select a layout"
       });
     } else {
+      this.props.history.push("/cards");
       this.props.setUpload(true);
       this.setState({
         loading: true,
@@ -69,22 +70,31 @@ export default class UploadToServer extends Component {
     }
   };
   render() {
+    // const Button = withRouter(({ history }) => (
+    //   <Button
+    //     primary
+    //     style={{ marginTop: "20px" }}
+    //     onClick={() => this.upload(this.props.byLine, history)}
+    //   >
+    //     Generate Menu
+    //   </Button>
+    // ));
     return (
       <Container>
-        <Link to="/cards">
-          <Button
-            primary
-            style={{ marginTop: "20px" }}
-            onClick={() => this.upload(this.props.byLine)}
-            loading={this.state.loading}
-          >
-            Generate Menu
-          </Button>
-        </Link>
-
+        {/* <Link to="/cards"> */}
         <Message negative hidden={!this.state.error}>
           Error: {this.state.error}
         </Message>
+        <Button
+          primary
+          style={{ marginTop: "20px" }}
+          onClick={() => this.upload(this.props.byLine)}
+          loading={this.state.loading}
+        >
+          Generate Menu
+        </Button>
+        {/* </Link> */}
+        {/* {Button} */}
       </Container>
     );
   }
