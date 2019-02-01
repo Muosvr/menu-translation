@@ -36,7 +36,7 @@ export default class UploadToServer extends Component {
         error: "Please select a layout"
       });
     } else {
-      this.props.setUpload();
+      this.props.setUpload(true);
       this.setState({
         loading: true,
         error: false

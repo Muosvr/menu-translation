@@ -34,7 +34,7 @@ export default class Interface extends Component {
         style={{ textAlign: "center", marginBottom: "20px", marginTop: "50px" }}
       >
         <h5>To translate a menu</h5>
-        <SelectFile setFile={this.setFile} />
+        <SelectFile setFile={this.setFile} setImage={this.props.setImage} />
         <LanguagePicker setLanguage={this.setLanguage} />
         <MenuLayout setByLine={this.setByLine} />
         <UploadToServer

@@ -33,6 +33,7 @@ export default class SelectFile extends Component {
       this.setState({
         imagePreviewUrl: reader.result
       });
+      this.props.setImage(reader.result);
     };
     reader.readAsDataURL(file);
     this.props.setFile(e.target.files[0]);
@@ -60,6 +61,7 @@ export default class SelectFile extends Component {
     this.setState({
       imagePreviewUrl: sampleImages[index]
     });
+    this.props.setImage(sampleImages[index]);
 
     this.srcToFile(sampleImages[index], "sample.png", "image/png").then(
       file => {

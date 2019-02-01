@@ -2,26 +2,40 @@ import React, { Component } from "react";
 import Layout from "./components/common/Layout";
 import CardContainer from "./components/CardContainer";
 import Interface from "./components/Interface";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       upload: false,
-      response: null
+      response: null,
+      image: null
     };
   }
 
-  setUpload = () => {
+  setUpload = boolean => {
     this.setState({
-      upload: true
+      upload: boolean
     });
   };
 
   setResponse = response => {
     this.setState({ response });
   };
+
+  clearResponse = () => {
+    this.setState({
+      response: null
+    });
+  };
+
+  setImage = imageURL => {
+    this.setState({
+      image: imageURL
+    });
+  };
+
   render() {
     return (
       <Router>
@@ -35,6 +49,7 @@ class App extends Component {
                   {...props}
                   setResponse={this.setResponse}
                   setUpload={this.setUpload}
+                  setImage={this.setImage}
                 />
               )}
             />
@@ -43,8 +58,11 @@ class App extends Component {
               render={props => (
                 <CardContainer
                   {...props}
+                  menuImage={this.state.image}
+                  setUpload={this.setUpload}
                   upload={this.state.upload}
                   response={this.state.response}
+                  clearResponse={this.clearResponse}
                 />
               )}
             />
