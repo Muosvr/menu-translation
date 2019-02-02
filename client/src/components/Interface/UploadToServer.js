@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Message, Container } from "semantic-ui-react";
 import axios from "axios";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 
 export default class UploadToServer extends Component {
   constructor() {

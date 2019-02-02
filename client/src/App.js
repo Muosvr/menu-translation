@@ -3,9 +3,9 @@ import Layout from "./components/common/Layout";
 import CardContainer from "./components/CardContainer";
 import Interface from "./components/Interface";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import createBrowserHistory from "history/createBrowserHistory";
+// import createBrowserHistory from "history/createBrowserHistory";
 import MenuEditor from "./components/Interface/MenuEditor";
-const customHistory = createBrowserHistory();
+// const customHistory = createBrowserHistory();
 
 class App extends Component {
   constructor() {
