@@ -56,13 +56,13 @@ class App extends Component {
                 />
               )}
             />
+            <Link to="/editmenu">Edit Menu</Link>
             <Route
               path="/editmenu"
               render={props => (
                 <MenuEditor {...props} menuImage={this.state.image} />
               )}
             />
-            <Link to="/editmenu">Edit Menu</Link>
 
             <Route
               path="/cards"
