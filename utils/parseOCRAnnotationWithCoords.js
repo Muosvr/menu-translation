@@ -16,8 +16,6 @@ const parseOCRAnnotations = response => {
     for (var i = 0; i < blockCount; i++) {
       var paragraphs = blocks[i]["paragraphs"];
       var paragraphCount = paragraphs.length;
-      // var block = {};
-      var paragraphIndex = 0;
 
       // Concat pharagraphs
       for (var j = 0; j < paragraphCount; j++) {
@@ -55,8 +53,11 @@ const parseOCRAnnotations = response => {
 
           // Concatenate into one line of text
           word = letters.join("");
-          paragraph += word + " ";
-          boundingBoxes.push(words[k]["boundingBox"]["vertices"]);
+          word = removeSpecialChar(word.trim());
+          if (word) {
+            paragraph += word + " ";
+            boundingBoxes.push(words[k]["boundingBox"]["vertices"]);
+          }
 
           // Break down a block into lines
           if (lineBreak) {
@@ -66,7 +67,12 @@ const parseOCRAnnotations = response => {
               if (pureText.length >= minPhraseChar) {
                 const line = {};
                 line["text"] = pureText;
-                line["boundingBoxes"] = boundingBoxes;
+                line["boundingBox"] = {
+                  x1: boundingBoxes[0][0]["x"],
+                  y1: boundingBoxes[0][0]["y"],
+                  x3: boundingBoxes[boundingBoxes.length - 1][2]["x"],
+                  y3: boundingBoxes[boundingBoxes.length - 1][2]["y"]
+                };
                 line["location"] = location.slice();
                 fullText.push(line);
 
