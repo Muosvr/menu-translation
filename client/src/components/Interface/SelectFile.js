@@ -5,6 +5,7 @@ import sampleImage2 from "./sampleMenu/sample2.png";
 import sampleImage3 from "./sampleMenu/sample3.jpg";
 import sampleImage4 from "./sampleMenu/sample4.jpg";
 import sampleImage5 from "./sampleMenu/sample5.jpg";
+import sampleImage6 from "./sampleMenu/sample6.jpg";
 
 export default class SelectFile extends Component {
   constructor() {
@@ -51,11 +52,12 @@ export default class SelectFile extends Component {
 
   useSample = () => {
     const sampleImages = [
-      sampleImage1,
-      sampleImage2,
-      sampleImage3,
-      sampleImage4,
-      sampleImage5
+      // sampleImage1,
+      // sampleImage2,
+      // sampleImage3,
+      // sampleImage4,
+      // sampleImage5,
+      sampleImage6
     ];
     const index = Math.floor(Math.random() * sampleImages.length);
     this.setState({

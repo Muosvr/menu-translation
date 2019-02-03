@@ -1,20 +1,24 @@
 import React, { Component } from "react";
 // import { Container, Segment, Image } from "semantic-ui-react";
 import { Redirect } from "react-router-dom";
-import { Stage, Sprite } from "@inlet/react-pixi";
-import { render, Text } from "@inlet/react-pixi";
+import { Stage, Sprite, withPixiApp } from "@inlet/react-pixi";
+import BoundingBox from "./helpers/BoundingBox";
+import sampleOCR from "./helpers/sampleOCR";
+
 import * as PIXI from "pixi.js";
 
 export default class MenuEditor extends Component {
   state = {
-    imageWidth: null,
-    imageHeight: null
+    oldImageHeight: null,
+    imageWidth: document.body.clientWidth - 30,
+    imageHeight: null,
+    boundingBoxes: null
   };
   componentDidMount() {
-    const imageWidth = document.body.clientWidth;
+    const imageWidth = this.state.imageWidth;
     this.setState({ imageWidth });
     if (this.props.menuImage) {
-      console.log("window", document.body.clientWidth);
+      console.log("window", this.state.imageWidth);
       // const canvas = this.refs.canvas;
       // canvas.width = document.body.clientWidth;
       // canvas.height = document.body.clientHeight;
@@ -24,10 +28,12 @@ export default class MenuEditor extends Component {
 
       // console.log(img);
       img.onload = () => {
-        const imageHeight =
-          (document.body.clientWidth * img.height) / img.width;
-        this.setState({ imageHeight });
-
+        const imageHeight = (this.state.imageWidth * img.height) / img.width;
+        this.setState({
+          imageHeight: imageHeight,
+          oldImageHeight: img.height
+        });
+        // this.createBoundingBox(img.height, imageHeight);
         // console.log(img);
         //   canvas.width = width;
         //   canvas.height = (width * img.height) / img.width;
@@ -41,33 +47,83 @@ export default class MenuEditor extends Component {
       };
     }
   }
+  scaleVertices = (
+    { x: x1, y: y1 },
+    { x: x3, y: y3 },
+    preLength,
+    newLength
+  ) => {
+    x1 = (x1 * newLength) / preLength;
+    y1 = (y1 * newLength) / preLength;
+    x3 = (x3 * newLength) / preLength;
+    y3 = (y3 * newLength) / preLength;
+    return { x1, y1, x3, y3 };
+  };
+  createBoundingBox = () => {
+    // const boundingBoxes = sampleOCR.map(item=>{
+    //   bBoxes =
+    // })
+    // const test = [
+    //   { x: 229, y: 94 },
+    //   { x: 334, y: 94 },
+    //   { x: 334, y: 117 },
+    //   { x: 229, y: 117 }
+    // ];
+    const test = sampleOCR[0]["boundingBoxes"][0];
+    const { x1, y1, x3, y3 } = this.scaleVertices(
+      test[0],
+      test[2],
+      this.state.oldImageHeight,
+      this.state.imageHeight
+    );
+    console.log("new coords", x1, y1, x3, y3);
+    this.setState({
+      boundingBoxes: (
+        <BoundingBox
+          x1={x1}
+          y1={y1}
+          x3={x3}
+          y3={y3}
+          fill={0xff0000}
+          alpha={0.5}
+        />
+      )
+    });
+    // return (
+    //   <BoundingBox
+    //     x1={x1}
+    //     y1={y1}
+    //     x3={x3}
+    //     y3={y3}
+    //     fill={0xff0000}
+    //     alpha={0.5}
+    //   />
+    // );
+  };
 
   render() {
+    // console.log(sampleOCR[0]);
     if (this.props.menuImage) {
-      // const app = new PIXI.Application(800, 600, {
-      //   backgroundColor: 0x10bb99,
-      //   view: document.getElementById("container")
-      // });
-      const menuImage = new PIXI.Sprite.from(this.props.menuImage);
       return (
         <div>
           <p>Menu Editor PixiReact</p>
 
-          <Stage
-            width={document.body.clientWidth}
-            height={this.state.imageHeight}
-          >
+          <Stage width={this.state.imageWidth} height={this.state.imageHeight}>
             {/* {menuImage[0]} */}
 
             <Sprite
               image={this.props.menuImage}
-              width={document.body.clientWidth}
+              x={0}
+              y={0}
+              width={this.state.imageWidth}
               height={this.state.imageHeight}
             />
+            {this.state.boundingBoxes}
           </Stage>
           {/* <canvas ref="canvas" /> */}
           {/* <Container> */}
           <img alt="menu" ref="image" src={this.props.menuImage} hidden />
+          <button onClick={this.createBoundingBox}>Create Bounding Box</button>
           {/* </Container> */}
         </div>
       );
