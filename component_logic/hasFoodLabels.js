@@ -1,4 +1,4 @@
-// check if labels contain the word food
+// check if labels contain the word food or drink
 // @param collection {string[[]]} - nested array of strings containing labels for images
 // returns {boot}
 const hasFoodLabels = collection => {
@@ -22,10 +22,6 @@ const hasFoodLabels = collection => {
   if (foodVote / collection.length >= tolerance) {
     return foodIndex;
   } else {
-    // console.log("Not Food");
-    // console.log("collection", collection);
-    // console.log("foodVote", foodVote);
-    // console.log("collection length", collection.length);
     return false;
   }
 };

@@ -5,6 +5,9 @@ import sampleImage2 from "./sampleMenu/sample2.png";
 import sampleImage3 from "./sampleMenu/sample3.jpg";
 import sampleImage4 from "./sampleMenu/sample4.jpg";
 import sampleImage5 from "./sampleMenu/sample5.jpg";
+import sampleImage6 from "./sampleMenu/sample6.jpg";
+import sampleImage7 from "./sampleMenu/sample7.jpg";
+import srcToFile from "./helpers/srcToFile";
 
 export default class SelectFile extends Component {
   constructor() {
@@ -14,16 +17,6 @@ export default class SelectFile extends Component {
       imagePreviewUrl: null
     };
   }
-
-  srcToFile = (src, fileName, mimeType) => {
-    return fetch(src)
-      .then(function(res) {
-        return res.arrayBuffer();
-      })
-      .then(function(buf) {
-        return new File([buf], fileName, { type: mimeType });
-      });
-  };
 
   selectFile = e => {
     let reader = new FileReader();
@@ -39,23 +32,15 @@ export default class SelectFile extends Component {
     this.props.setFile(e.target.files[0]);
   };
 
-  srcToFile = (src, fileName, mimeType) => {
-    return fetch(src)
-      .then(function(res) {
-        return res.arrayBuffer();
-      })
-      .then(function(buf) {
-        return new File([buf], fileName, { type: mimeType });
-      });
-  };
-
   useSample = () => {
     const sampleImages = [
       sampleImage1,
       sampleImage2,
       sampleImage3,
       sampleImage4,
-      sampleImage5
+      sampleImage5,
+      sampleImage6,
+      sampleImage7
     ];
     const index = Math.floor(Math.random() * sampleImages.length);
     this.setState({
@@ -63,11 +48,9 @@ export default class SelectFile extends Component {
     });
     this.props.setImage(sampleImages[index]);
 
-    this.srcToFile(sampleImages[index], "sample.png", "image/png").then(
-      file => {
-        this.props.setFile(file);
-      }
-    );
+    srcToFile(sampleImages[index], "sample.png", "image/png").then(file => {
+      this.props.setFile(file);
+    });
   };
 
   render() {
@@ -79,13 +62,17 @@ export default class SelectFile extends Component {
             textAlign: "center"
           }}
         >
-          <h3>1. Take/upload a photo of the menu</h3>
           <Button primary as="label" htmlFor="upload">
             <Icon name="photo" />
-            Upload
+            Upload an Image
           </Button>
-          {/* <p>No menu in front of you? Try a sample menu</p> */}
-          <Button onClick={this.useSample}>Use a random sample menu</Button>
+          <p
+            style={{ color: "#2185d0", cursor: "pointer", marginTop: "10px" }}
+            onClick={this.useSample}
+          >
+            {" "}
+            No menu in front of you? Try a random sample menu.{" "}
+          </p>
           <input
             hidden
             id="upload"

@@ -17,7 +17,7 @@ class LanguagePicker extends Component {
   render() {
     return (
       <div style={{ display: "block", textAlign: "center", marginTop: "20px" }}>
-        <h3 style={{ margin: "0px" }}>2. Pick a language to translate to</h3>
+        <h5> then </h5>
         <Dropdown
           style={{ marginTop: "0px", marginBottom: "20px", width: "300px" }}
           placeholder="Select Desired Language"

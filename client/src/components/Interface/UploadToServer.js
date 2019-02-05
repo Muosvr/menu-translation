@@ -1,25 +1,11 @@
 import React, { Component } from "react";
 import { Button, Message, Container } from "semantic-ui-react";
 import axios from "axios";
-import { withRouter } from "react-router-dom";
 
 export default class UploadToServer extends Component {
-  constructor() {
-    super();
-    this.state = {
-      loading: false,
-      error: false,
-      file: null
-    };
-  }
-  srcToFile = async (src, fileName, mimeType) => {
-    return fetch(src)
-      .then(function(res) {
-        return res.arrayBuffer();
-      })
-      .then(function(buf) {
-        return new File([buf], fileName, { type: mimeType });
-      });
+  state = {
+    error: false,
+    file: null
   };
 
   upload = (byLine, history) => {
@@ -31,57 +17,30 @@ export default class UploadToServer extends Component {
       this.setState({
         error: "Please pick a desired language"
       });
-    } else if (byLine === undefined) {
-      this.setState({
-        error: "Please select a layout"
-      });
     } else {
       this.props.history.push("/cards");
       this.props.setUpload(true);
-      this.setState({
-        loading: true,
-        error: false
-      });
-
       const data = new FormData();
       data.append("image", this.props.file);
-      const path = byLine ? "/cards/imageByLine" : "/cards/image";
 
       axios
-        .post(path + "/" + this.props.desiredLanguage, data)
+        .post("/cards/image/" + this.props.desiredLanguage, data)
         .then(res => {
-          // Testing
-          console.log(res["data"]);
-
           this.props.setResponse(res["data"]);
           if (res["data"]["cards"].length < 1) {
             this.setState({
               error: "Cannot find any food or drink items"
             });
           }
-          this.setState({
-            loading: false
-          });
         })
         .catch(err => {
-          this.setState({ loading: false, error: err });
-          console.log(err);
+          console.log("fetch error", err);
         });
     }
   };
   render() {
-    // const Button = withRouter(({ history }) => (
-    //   <Button
-    //     primary
-    //     style={{ marginTop: "20px" }}
-    //     onClick={() => this.upload(this.props.byLine, history)}
-    //   >
-    //     Generate Menu
-    //   </Button>
-    // ));
     return (
       <Container>
-        {/* <Link to="/cards"> */}
         <Message negative hidden={!this.state.error}>
           Error: {this.state.error}
         </Message>
@@ -89,12 +48,9 @@ export default class UploadToServer extends Component {
           primary
           style={{ marginTop: "20px" }}
           onClick={() => this.upload(this.props.byLine)}
-          loading={this.state.loading}
         >
-          Generate Menu
+          Submit
         </Button>
-        {/* </Link> */}
-        {/* {Button} */}
       </Container>
     );
   }

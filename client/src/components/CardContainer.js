@@ -7,6 +7,7 @@ class CardContainer extends Component {
   state = {
     menuImage: false
   };
+
   toggleImage = () => {
     if (this.state.menuImage) {
       this.setState({
@@ -18,6 +19,12 @@ class CardContainer extends Component {
       });
     }
   };
+
+  clearCards = () => {
+    this.props.setUpload(false);
+    this.props.clearResponse();
+  };
+
   render() {
     var cards = null;
     if (this.props.upload) {
@@ -32,22 +39,21 @@ class CardContainer extends Component {
             );
           });
       }
-      const clearCards = () => {
-        this.props.setUpload(false);
-        this.props.clearResponse();
-      };
+
       return (
         <div style={{ marginTop: "10px", textAlign: "center" }}>
-          <Message icon hidden={cards}>
-            <Icon name="circle notched" loading />
-            <Message.Content>
-              <Message.Header>Your menu is being prepared</Message.Header>
-              This may take a minute
-            </Message.Content>
-          </Message>
+          {!cards && (
+            <Message icon>
+              <Icon name="circle notched" loading />
+              <Message.Content>
+                <Message.Header>Your menu is being prepared</Message.Header>
+                This may take a minute
+              </Message.Content>
+            </Message>
+          )}
           <div hidden={!cards}>
             <Link to="/">
-              <Button primary onClick={clearCards}>
+              <Button primary onClick={this.clearCards}>
                 Upload a new menu
               </Button>
             </Link>
