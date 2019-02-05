@@ -8,7 +8,7 @@ export default class Interface extends Component {
     super();
     this.state = {
       file: null,
-      desiredLanguage: undefined,
+      desiredLanguage: "en",
       byLine: undefined
     };
   }

@@ -9,6 +9,7 @@ const options = Object.keys(supportedLanguages).map(language => {
     text: language
   };
 });
+const defaultValue = "en";
 
 class LanguagePicker extends Component {
   setLanguage = (e, data) => {
@@ -17,13 +18,13 @@ class LanguagePicker extends Component {
   render() {
     return (
       <div style={{ display: "block", textAlign: "center", marginTop: "20px" }}>
-        <h5> then </h5>
+        <h5> Select a desired language </h5>
         <Dropdown
-          style={{ marginTop: "0px", marginBottom: "20px", width: "300px" }}
-          placeholder="Select Desired Language"
           search
+          floating
           selection
           options={options}
+          defaultValue={"en"}
           onChange={this.setLanguage}
         />
       </div>
