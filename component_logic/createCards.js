@@ -5,6 +5,7 @@ const getImageLabels = require("./getImageLabels");
 const hasFoodLabels = require("./hasFoodLabels");
 const cleanImageUrls = require("../utils/cleanImageUrls");
 const saveImageSearch = require("./saveImageSearch");
+const searchImageFromDB = require("./searchImageFromDB");
 
 // Create card objects
 // @param collection {object[]} - array of parsed text objects in the format of [{0: text, 1: text, ...}, ...]
@@ -55,11 +56,17 @@ const createCards = async (collection, byLine, targetLanguage, referer) => {
     imageSeachQueryCount++;
 
     if (imageSeachQueryCount <= maxImageSearchQueries) {
-      item["images"] = await searchImage(
-        description,
-        numOfImageToSearch,
-        referer
-      );
+      item["images"] = await searchImageFromDB(description);
+      console.log("from DB", item["images"]);
+      if (item["images"].length < 1) {
+        console.log("Keyword not found in database, using Google Image Search");
+        item["images"] = await searchImage(
+          description,
+          numOfImageToSearch,
+          referer
+        );
+      }
+
       saveImageSearch(description, item["images"]);
       item["images"] = cleanImageUrls(item["images"]);
       item["imageLabels"] = await getImageLabels(item["images"], referer);

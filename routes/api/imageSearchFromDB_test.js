@@ -3,7 +3,7 @@ const searchImageFromDB = require("../../component_logic/searchImageFromDB");
 
 const router = express.Router();
 
-// @route GET /search
+// @route GET /searchDB/:keyword
 router.get("/:keyword", (req, res) => {
   // Get result from DB
   searchImageFromDB(req.params.keyword)
