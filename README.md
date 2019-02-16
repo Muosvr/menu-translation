@@ -5,7 +5,7 @@
 ### Machine Learning Challenges
 - How to detect layout of menu to get correct OCR reading (in progress)
 - How to distinguish food vs non-food related text on menus (solved)
-- How to do the above while being ignostic of languages on the menu
+- How to do the above while being ignostic of languages on the menu (in progress)
 - How to properly translate food since most translation services are not designed to translate food items
 - How to scale and reduce cost associated with machine learning (in progress)
 
