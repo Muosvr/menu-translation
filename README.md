@@ -7,7 +7,7 @@
 - How to distinguish food vs non-food related text on menus (solved)
 - How to do the above while being ignostic of languages on the menu (in progress)
 - How to properly translate food since most translation services are not designed to translate food items
-- How to scale and reduce cost associated with machine learning (in progress)
+- Reducing cost associated with machine learning APIs by replacing existing APIs with my own(in progress)
 
 ### Problem
 I often have trouble ordering food from menus with food I'm less familiar with, and this problem becomes even more severe when I'm traveling. When encountered with an unfamiliar menu, the choice is to either stick with what I know and miss out on the potential good food, or risk having a bad meal that I'm too embarrassed to leave unfinished, which happens quite often to me, unfortunately… So I found myself looking up every other word on the menu on google translate, and sometimes even the translation doesn't make sense, in which case I then search for an image to try to understand what's in the food. Because of that, I would end up going back and forth between Google Image and Google Translate for each word on the menu.
