@@ -34,7 +34,7 @@
     "express": "^4.16.4",
     "express-fileupload": "^1.0.0",
     "mocha": "^5.2.0",
-    "mongoose": "^5.4.6",
+    "mongoose": "^5.7.5",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "validate-image-url": "^1.0.1"
